@@ -80,3 +80,81 @@ nav ul li a:hover {
     margin: 10px;
     cursor: pointer;
 }
+
+.features {
+    margin-top: 20px;
+    background-color: rgb(93, 87, 107);
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.features h3 {
+    font-size: 16px;
+    color: white;
+    padding-top: 40px;
+}
+
+.features h2 {
+    font-size: 40px;
+    color: white;
+    margin-top: -10px;
+}
+
+.features {
+    background-color: rgb(93, 87, 107);
+    padding-bottom: 65px;
+}
+
+.features h1 {
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.features h2 {
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    margin-top: 1px;
+}
+
+.featuresContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2%; /* Decreased gap value */
+    width: 100%;
+    color: white;
+}
+
+.feature {
+    background-color: rgb(101, 96, 115);
+    padding: 40px;
+    margin-top: 20px;
+    text-align: left;
+    align-items: start;
+}
+
+.feature p {
+    font-size: 20px;
+    color: white;
+    text-align: left;
+    margin-left: 37px;
+}
+
+.featureName p {
+    font-size: 24px;
+    color: white;
+    text-align: left;
+    margin-top: 2px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.featureName {
+    display: flex;
+    height: 32px;
+}
