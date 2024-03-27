@@ -3,8 +3,18 @@ body {
     font-family: Arial, sans-serif;
 }
 
+button {
+    background-color: rgb(58, 53, 71);
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: rgb(106, 102, 114);
+}
+
 nav {
-    background-color: #333;
+    background-color: rgb(93, 87, 107);
     overflow: hidden;
     padding: 10px 20px;
     display: flex;
@@ -49,16 +59,9 @@ nav ul li a:hover {
 }
 
 .right-section button {
-    background-color: #555;
-    color: white;
-    border: none;
     padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
-}
-
-.right-section button:hover {
-    background-color: #777;
 }
 
 .caption {
@@ -73,9 +76,6 @@ nav ul li a:hover {
 }
 
 .caption button {
-    background-color: #555;
-    color: white;
-    border: none;
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
