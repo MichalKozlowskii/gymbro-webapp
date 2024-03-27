@@ -60,3 +60,23 @@ nav ul li a:hover {
 .right-section button:hover {
     background-color: #777;
 }
+
+.caption {
+    width: 100%;
+    text-align: center;
+    margin: 28px auto;
+    font-family: Arial, sans-serif;
+}
+
+.caption h2 {
+    font-size: 50px;
+}
+
+.caption button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
