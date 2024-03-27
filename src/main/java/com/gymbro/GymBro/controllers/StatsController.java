@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StatsController {
 
     @RequestMapping("/stats")
-    public String getWorkouts() {
+    public String getStats() {
         return "stats";
     }
 }
