@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+</head>
+<body>
+    <div th:fragment="navbar">
+        <nav>
+            <h1>GYM BRO</h1>
+            <ul>
+                <li><a href="http://localhost:8080/">Home</a></li>
+                <li><a href="http://localhost:8080/progress">Progress</a></li>
+                <li><a href="http://localhost:8080/workouts">Workouts</a></li>
+                <li><a href="http://localhost:8080/stats">Stats</a></li>
+                <li><a href="http://localhost:8080/settings">Settings</a></li>
+            </ul>
+            <div class="right-section">
+                <button>Login</button>
+                <button>Register</button>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
