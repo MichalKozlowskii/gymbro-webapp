@@ -1,25 +1,25 @@
-package com.gymbro.GymBro.models;
+package com.gymbro.GymBro.web.DTO;
 
-
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
     private Long id;
-    @Column(name = "name")
     private String name;
     private String password;
 
-    public UserEntity(String name, String password) {
-        super();
+    public UserDto(Long id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public UserEntity() {
+    public UserDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,9 +36,5 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
     }
 }
