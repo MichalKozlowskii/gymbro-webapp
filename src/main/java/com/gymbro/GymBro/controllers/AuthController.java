@@ -35,7 +35,7 @@ public class AuthController {
         UserEntity existingUser = userService.findUserByName(userDto.getName());
 
         if (existingUser != null && existingUser.getName() != null && !existingUser.getName().isEmpty()) {
-            result.rejectValue("email", null,
+            result.rejectValue("name", null,
                     "There is already an account registered with the same name.");
         }
 

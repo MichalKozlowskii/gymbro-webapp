@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<UserEntity> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserDto(user))
+                .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }
 
