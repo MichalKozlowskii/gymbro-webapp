@@ -1,13 +1,9 @@
 package com.gymbro.GymBro.controllers;
 
-import com.gymbro.GymBro.models.UserEntity;
-import com.gymbro.GymBro.repositories.UserRepository;
 import com.gymbro.GymBro.services.ExerciseService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
