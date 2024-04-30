@@ -8,8 +8,15 @@
 <body>
     <div th:insert="/navbar::navbar"></div>
 
+    <div class="caption">
+        <h2>Your exercises</h2>
+    </div>
+
     <div class="subsiteContent">
-        <h1>W.I.P.</h1>
+        <div th:if="${#lists.isEmpty(exercises)}">
+            <h1>No exercises found. Add some!</h1>
+            <a class="button-like" th:href="@{/addexercise}">Add exercise</a>
+        </div>
     </div>
 
     <div th:insert="/footer::footer"></div>

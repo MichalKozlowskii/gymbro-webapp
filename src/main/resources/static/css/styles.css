@@ -1,7 +1,8 @@
-body {
+html, body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-y: scroll;
+    height: 100%;
 }
 
 .button-like {
@@ -217,4 +218,5 @@ footer ul li a:hover {
     color: white;
     text-align: center;
     width: 100%;
+    padding-top: 2%;
 }
