@@ -23,6 +23,11 @@ public class ExerciseController {
         this.userService = userService;
     }
 
+    @GetMapping("/exercises")
+    public String getExercises() {
+        return "exercises";
+    }
+
     @GetMapping("/addexercise")
     public String showAddExerciseForm(Model model) {
         ExerciseDto exerciseDto = new ExerciseDto();
