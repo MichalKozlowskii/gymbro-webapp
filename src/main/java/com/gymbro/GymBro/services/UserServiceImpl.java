@@ -3,7 +3,6 @@ package com.gymbro.GymBro.services;
 import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.repositories.UserRepository;
 import com.gymbro.GymBro.web.DTO.UserDto;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

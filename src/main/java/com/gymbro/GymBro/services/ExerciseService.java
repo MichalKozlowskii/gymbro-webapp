@@ -9,5 +9,5 @@ import java.util.List;
 public interface ExerciseService {
     void saveExercise(ExerciseDto exerciseDto);
     Exercise findExerciseById(Long id);
-    List<Exercise> findAllExercisesOfUser(UserEntity user);
+    List<ExerciseDto> findAllExercisesOfUser(UserEntity user);
 }
