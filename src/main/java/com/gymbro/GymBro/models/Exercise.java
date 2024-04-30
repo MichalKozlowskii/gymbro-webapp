@@ -6,16 +6,19 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "excersises")
-public class Excersise {
+public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     String name;
     String description;
 
-    public Excersise(String name, String description) {
+    public Exercise(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Exercise() {
     }
 
     public Long getId() {
@@ -47,7 +50,7 @@ public class Excersise {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Excersise excersise = (Excersise) o;
+        Exercise excersise = (Exercise) o;
 
         if (!Objects.equals(id, excersise.id)) return false;
         if (!Objects.equals(name, excersise.name)) return false;
