@@ -11,8 +11,7 @@ public class ExerciseController {
     @GetMapping("/addexercise")
     public String showAddExerciseForm(Model model) {
         ExerciseDto exerciseDto = new ExerciseDto();
-        model.addAttribute("name");
-        model.addAttribute("description");
+        model.addAttribute("exercise", exerciseDto);
 
         return "addexercise";
     }
