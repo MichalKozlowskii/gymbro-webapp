@@ -1,6 +1,8 @@
 package com.gymbro.GymBro.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -10,12 +12,18 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    String name;
-    String description;
+    private String name;
+    private String description;
 
-    public Exercise(String name, String description) {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private UserEntity user;
+
+    public Exercise(String name, String description, UserEntity user) {
         this.name = name;
         this.description = description;
+        this.user = user;
     }
 
     public Exercise() {
@@ -45,16 +53,26 @@ public class Exercise {
         this.description = description;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Exercise excersise = (Exercise) o;
+        Exercise exercise = (Exercise) o;
 
-        if (!Objects.equals(id, excersise.id)) return false;
-        if (!Objects.equals(name, excersise.name)) return false;
-        return Objects.equals(description, excersise.description);
+        if (!Objects.equals(id, exercise.id)) return false;
+        if (!Objects.equals(name, exercise.name)) return false;
+        if (!Objects.equals(description, exercise.description))
+            return false;
+        return Objects.equals(user, exercise.user);
     }
 
     @Override
@@ -62,6 +80,7 @@ public class Exercise {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 }
