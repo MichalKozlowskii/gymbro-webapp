@@ -4,12 +4,14 @@ import com.gymbro.GymBro.models.Exercise;
 import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.repositories.ExerciseRepository;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
@@ -25,7 +27,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = new Exercise();
         exercise.setName(exerciseDto.getName());
         exercise.setDescription(exerciseDto.getDescription());
-        exercise.setUser(userService.findUserById(exerciseDto.getId()));
+        exercise.setUser(userService.findUserById(exerciseDto.getUserId()));
 
         exerciseRepository.save(exercise);
     }
