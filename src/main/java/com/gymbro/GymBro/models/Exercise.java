@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.Objects;
 
 @Entity
-@Table(name = "excersises")
+@Table(name = "exercises")
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
