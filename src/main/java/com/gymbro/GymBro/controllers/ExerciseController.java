@@ -37,6 +37,10 @@ public class ExerciseController {
                               Model model,
                               @AuthenticationPrincipal User user) {
 
+        if (exerciseDto.getName().isEmpty()) {
+            result.rejectValue("name", null, "Name field can't be blank!");
+        }
+
         if (result.hasErrors()) {
             model.addAttribute(exerciseDto);
             return "addexercise";
@@ -46,6 +50,6 @@ public class ExerciseController {
         exerciseDto.setUserId(userId);
 
         exerciseService.saveExercise(exerciseDto);
-        return "redirect:/addexercise?succes";
+        return "redirect:/addexercise?success";
     }
 }
