@@ -44,10 +44,6 @@ public class ExerciseServiceImpl implements ExerciseService {
     public List<ExerciseDto> findAllExercisesOfUser(UserEntity user) {
         List<Exercise> exercises = exerciseRepository.findByUser(user);
 
-        if (exercises.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         return exercises.stream()
                 .map(this::mapToExerciseDto)
                 .collect(Collectors.toList());
