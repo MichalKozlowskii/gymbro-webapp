@@ -6,6 +6,7 @@ import com.gymbro.GymBro.repositories.ExerciseRepository;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -42,6 +43,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public List<ExerciseDto> findAllExercisesOfUser(UserEntity user) {
         List<Exercise> exercises = exerciseRepository.findByUser(user);
+
+        if (exercises.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         return exercises.stream()
                 .map(this::mapToExerciseDto)
                 .collect(Collectors.toList());
