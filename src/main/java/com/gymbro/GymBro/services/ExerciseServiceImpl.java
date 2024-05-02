@@ -51,8 +51,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private ExerciseDto mapToExerciseDto(Exercise exercise) {
         ExerciseDto exerciseDto = new ExerciseDto();
-        exerciseDto.setName(exerciseDto.getName());
-        exerciseDto.setDescription(exerciseDto.getDescription());
+        exerciseDto.setId(exercise.getId());
+        exerciseDto.setName(exercise.getName());
+        exerciseDto.setDescription(exercise.getDescription());
         exerciseDto.setUserId(exercise.getUser().getId());
 
         return exerciseDto;
