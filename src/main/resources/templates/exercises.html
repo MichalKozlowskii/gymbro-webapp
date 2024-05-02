@@ -17,8 +17,19 @@
             <h1>No exercises found. Add some!</h1>
             <a class="button-like" th:href="@{/addexercise}">Add exercise</a>
         </div>
-    </div>
 
-    <div th:insert="/footer::footer"></div>
+        <div th:if="${not #lists.isEmpty(exercises)}">
+            <a class="button-like" th:href="@{/addexercise}">Add exercise</a>
+
+            <div th:each="exercise : ${exercises}" class="exercise-bar">
+                <span th:text="${exercise.name}">Exercise Name</span>
+
+                <div class="exercise-actions">
+                    <button class="view-button">View Description</button>
+                    <button class="delete-button">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

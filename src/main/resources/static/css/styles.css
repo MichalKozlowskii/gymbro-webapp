@@ -220,3 +220,41 @@ footer ul li a:hover {
     width: 100%;
     padding-top: 2%;
 }
+
+.exercise-bar {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.exercise-bar span {
+    font-size: 16px;
+    color: white;
+}
+
+.exercise-actions {
+    flex-shrink: 0;
+}
+
+.view-button, .delete-button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Optionally, you can style buttons further */
+.view-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
