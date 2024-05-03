@@ -54,7 +54,8 @@ public class ExerciseServiceImpl implements ExerciseService {
                 .collect(Collectors.toList());
     }
 
-    private ExerciseDto mapToExerciseDto(Exercise exercise) {
+    @Override
+    public ExerciseDto mapToExerciseDto(Exercise exercise) {
         ExerciseDto exerciseDto = new ExerciseDto();
         exerciseDto.setId(exercise.getId());
         exerciseDto.setName(exercise.getName());
