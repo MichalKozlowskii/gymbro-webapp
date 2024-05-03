@@ -14,5 +14,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     List<Exercise> findByUser(UserEntity user);
     @Modifying
     @Query("update Exercise e set e.name = ?1, e.description = ?2 where e.id = ?3")
-    void setUserInfoById(String name, String description, Long id);
+    void updateExerciseById(String name, String description, Long id);
 }
