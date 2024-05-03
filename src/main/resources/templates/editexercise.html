@@ -29,10 +29,9 @@
 
         <div class="card-body">
             <form
-                    name="_method"
-                    th:value="PUT"
+                    th:method="PUT"
                     role="form"
-                    th:action="@{/exercise/edit/${exercise.id}}"
+                    th:action="@{/exercises/edit/{id}(id=${exercise.id})}"
                     th:object="${exercise}"
                     class="form-horizontal"
             >

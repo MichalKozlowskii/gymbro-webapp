@@ -4,6 +4,7 @@ import com.gymbro.GymBro.models.Exercise;
 import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.repositories.ExerciseRepository;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -38,6 +39,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
     public void updateExerciseById(Long id, ExerciseDto exerciseDto) {
         exerciseRepository.updateExerciseById(exerciseDto.getName(), exerciseDto.getDescription(),
