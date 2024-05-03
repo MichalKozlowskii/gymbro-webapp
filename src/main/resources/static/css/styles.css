@@ -247,16 +247,3 @@ footer ul li a:hover {
     padding: 5px 10px;
     cursor: pointer;
 }
-
-/* Optionally, you can style buttons further */
-.view-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-}
-
-.delete-button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-}
