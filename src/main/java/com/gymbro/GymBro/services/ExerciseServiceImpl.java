@@ -34,6 +34,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public void deleteExerciseById(Long id) {
+        exerciseRepository.deleteById(id);
+    }
+
+    @Override
     public Exercise findExerciseById(Long id) {
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(id);
 
