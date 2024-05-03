@@ -58,14 +58,14 @@ public class ExerciseController {
         exerciseDto.setUserId(userId);
 
         exerciseService.saveExercise(exerciseDto);
-        return "redirect:/exercises";
+        return "redirect:/exercises?addsuccess";
     }
 
     @DeleteMapping("/exercises/delete/{id}")
     public String deleteExercise(@PathVariable Long id) {
         exerciseService.deleteExerciseById(id);
 
-        return "redirect:/exercises";
+        return "redirect:/exercises?deletesuccess";
     }
 
     @GetMapping("exercises/edit/{id}")
@@ -101,6 +101,6 @@ public class ExerciseController {
 
         exerciseService.updateExerciseById(exerciseDto.getId(), exerciseDto);
 
-        return "redirect:/exercises";
+        return "redirect:/exercises?editsuccess";
     }
 }

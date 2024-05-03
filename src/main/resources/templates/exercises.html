@@ -21,6 +21,22 @@
     </div>
 
     <div class="subsiteContent">
+        <div th:if="${param.addsuccess}">
+            <div class="alert alert-info">
+                You have successfully added an exercise.
+            </div>
+        </div>
+        <div th:if="${param.editsuccess}">
+            <div class="alert alert-info">
+                You have successfully edited an exercise.
+            </div>
+        </div>
+        <div th:if="${param.deletesuccess}">
+            <div class="alert alert-info">
+                You have successfully deleted an exercise.
+            </div>
+        </div>
+
         <div th:if="${#lists.isEmpty(exercises)}">
             <h1>No exercises found. Add some!</h1>
         </div>
