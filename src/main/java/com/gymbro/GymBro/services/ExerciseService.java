@@ -9,6 +9,7 @@ import java.util.List;
 public interface ExerciseService {
     void saveExercise(ExerciseDto exerciseDto);
     void deleteExerciseById(Long id);
+    void updateExerciseById(Long id, ExerciseDto exerciseDto);
     Exercise findExerciseById(Long id);
     List<ExerciseDto> findAllExercisesOfUser(UserEntity user);
     ExerciseDto mapToExerciseDto(Exercise exercise);

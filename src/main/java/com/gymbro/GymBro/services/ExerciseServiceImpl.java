@@ -39,6 +39,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public void updateExerciseById(Long id, ExerciseDto exerciseDto) {
+        exerciseRepository.updateExerciseById(exerciseDto.getName(), exerciseDto.getDescription(),
+                exerciseDto.getId());
+    }
+
+    @Override
     public Exercise findExerciseById(Long id) {
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(id);
 
