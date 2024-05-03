@@ -30,13 +30,16 @@
                 <span th:text="${exercise.name}">Exercise Name</span>
 
                 <div class="exercise-actions">
-                    <button class="view-button" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${exercise.id}">View Description</button>
-
-                    <form action="#" th:action="@{'/exercises/delete/{id}'(id=${exercise.id})}" th:method="delete" >
-                        <button class="delete-button" type="submit">
-                            Delete
-                        </button>
-                    </form>
+                    <div style="display: inline-block;">
+                        <form action="#" th:action="@{'/exercises/delete/{id}'(id=${exercise.id})}" th:method="delete">
+                            <button class="view-button" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${exercise.id}">View Description</button>
+                        </form>
+                    </div>
+                    <div style="display: inline-block;">
+                        <form action="#" th:action="@{'/exercises/delete/{id}'(id=${exercise.id})}" th:method="delete">
+                            <button class="delete-button" type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
 
                 <!-- Description modal -->
