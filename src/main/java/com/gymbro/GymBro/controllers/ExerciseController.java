@@ -58,8 +58,10 @@ public class ExerciseController {
         return "redirect:/exercises";
     }
 
-    @DeleteMapping("/exercises/delte/{id}")
+    @DeleteMapping("/exercises/delete/{id}")
     public String deleteExercise(@PathVariable Long id) {
-        
+        exerciseService.deleteExerciseById(id);
+
+        return "redirect:/exercises";
     }
 }

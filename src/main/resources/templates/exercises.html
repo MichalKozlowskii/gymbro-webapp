@@ -31,7 +31,12 @@
 
                 <div class="exercise-actions">
                     <button class="view-button" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${exercise.id}">View Description</button>
-                    <button class="delete-button">Delete</button>
+
+                    <form action="#" th:action="@{'/exercises/delete/{id}'(id=${exercise.id})}" th:method="delete" >
+                        <button class="delete-button" type="submit">
+                            Delete
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Description modal -->
