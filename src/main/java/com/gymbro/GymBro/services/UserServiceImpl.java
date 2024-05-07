@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +41,13 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserEntity findUserById(Long id) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+
+        return userEntityOptional.orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
     private UserDto mapToUserDto(UserEntity user){

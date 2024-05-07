@@ -1,7 +1,8 @@
-body {
+html, body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-y: scroll;
+    height: 100%;
 }
 
 .button-like {
@@ -210,4 +211,39 @@ footer ul li a:hover {
     width: 100%;
     height: 100%;
     text-align: center;
+    padding-top: 10px;
+}
+
+.subsiteContent h1 {
+    font-size: 28px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding-top: 2%;
+}
+
+.exercise-bar {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.exercise-bar span {
+    font-size: 16px;
+    color: white;
+}
+
+.exercise-actions {
+    flex-shrink: 0;
+}
+
+.view-button, .delete-button {
+    padding: 5px 10px;
+    cursor: pointer;
 }
