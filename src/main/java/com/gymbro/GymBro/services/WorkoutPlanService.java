@@ -11,5 +11,4 @@ public interface WorkoutPlanService {
     WorkoutPlan findWorkoutPlanById(Long id);
     List<WorkoutPlanDto> findAllWorkoutPlansOfUser(UserEntity user);
     WorkoutPlanDto mapToWorkoutPlanDto(WorkoutPlan workoutPlan);
-
 }
