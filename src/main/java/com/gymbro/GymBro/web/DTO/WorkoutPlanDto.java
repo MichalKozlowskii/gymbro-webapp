@@ -20,6 +20,9 @@ public class WorkoutPlanDto {
         this.userId = userId;
     }
 
+    public WorkoutPlanDto() {
+    }
+
     public Long getId() {
         return id;
     }
