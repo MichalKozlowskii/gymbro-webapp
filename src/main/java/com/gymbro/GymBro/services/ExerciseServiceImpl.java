@@ -72,4 +72,15 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         return exerciseDto;
     }
+
+    @Override
+    public Exercise mapToExercise(ExerciseDto exerciseDto) {
+        Exercise exercise = new Exercise();
+        exercise.setName(exerciseDto.getName());
+        exercise.setDescription(exercise.getDescription());
+        exercise.setUser(userService.findUserById(exerciseDto.getUserId()));
+        exercise.setId(exerciseDto.getId());
+
+        return exercise;
+    }
 }

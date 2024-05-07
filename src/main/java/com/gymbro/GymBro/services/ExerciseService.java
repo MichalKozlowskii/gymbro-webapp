@@ -13,4 +13,5 @@ public interface ExerciseService {
     Exercise findExerciseById(Long id);
     List<ExerciseDto> findAllExercisesOfUser(UserEntity user);
     ExerciseDto mapToExerciseDto(Exercise exercise);
+    Exercise mapToExercise(ExerciseDto exerciseDto);
 }
