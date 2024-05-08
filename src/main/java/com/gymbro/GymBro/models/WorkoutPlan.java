@@ -8,15 +8,17 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "workout_plan")
 public class WorkoutPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "exercises", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "workout_plan_exercises",
+            joinColumns = @JoinColumn(name = "workout_plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_id"))
     private Set<Exercise> exercises;
 
     @ElementCollection
