@@ -30,7 +30,7 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         workoutPlan.setName(workoutPlan.getName());
         workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
                 .map(exerciseService::findExerciseById)
-                .collect(Collectors.toSet()));
+                .toList());
         workoutPlan.setSets(workoutPlanDto.getSets());
         workoutPlan.setReps(workoutPlanDto.getReps());
         workoutPlan.setUser(userService.findUserById(workoutPlanDto.getUserId()));
@@ -61,7 +61,7 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         workoutPlanDto.setName(workoutPlan.getName());
         workoutPlanDto.setExercisesIds(workoutPlan.getExercises().stream()
                 .map(Exercise::getId)
-                .collect(Collectors.toSet()));
+                .toList());
         workoutPlanDto.setSets(workoutPlan.getSets());
         workoutPlanDto.setReps(workoutPlan.getReps());
         workoutPlanDto.setUserId(workoutPlan.getUser().getId());
