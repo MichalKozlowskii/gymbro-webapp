@@ -6,15 +6,15 @@ import java.util.Set;
 public class WorkoutPlanDto {
     private Long id;
     private String name;
-    private Set<ExerciseDto> exercises;
+    private Set<Long> exercisesIds;
     private List<Integer> sets;
     private List<Integer> reps;
     private Long userId;
 
-    public WorkoutPlanDto(Long id, String name, Set<ExerciseDto> exercises, List<Integer> sets, List<Integer> reps, Long userId) {
+    public WorkoutPlanDto(Long id, String name, Set<Long> exercisesIds, List<Integer> sets, List<Integer> reps, Long userId) {
         this.id = id;
         this.name = name;
-        this.exercises = exercises;
+        this.exercisesIds = exercisesIds;
         this.sets = sets;
         this.reps = reps;
         this.userId = userId;
@@ -39,12 +39,12 @@ public class WorkoutPlanDto {
         this.name = name;
     }
 
-    public Set<ExerciseDto> getExercises() {
-        return exercises;
+    public Set<Long> getExercisesIds() {
+        return exercisesIds;
     }
 
-    public void setExercises(Set<ExerciseDto> exercises) {
-        this.exercises = exercises;
+    public void setExercisesIds(Set<Long> exercisesIds) {
+        this.exercisesIds = exercisesIds;
     }
 
     public List<Integer> getSets() {
@@ -69,5 +69,17 @@ public class WorkoutPlanDto {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkoutPlanDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", exercisesIds=" + exercisesIds +
+                ", sets=" + sets +
+                ", reps=" + reps +
+                ", userId=" + userId +
+                '}';
     }
 }

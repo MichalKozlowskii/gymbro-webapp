@@ -1,5 +1,6 @@
 package com.gymbro.GymBro.services;
 
+import com.gymbro.GymBro.models.Exercise;
 import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.repositories.WorkoutPlanRepository;
@@ -27,8 +28,8 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     public void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto) {
         WorkoutPlan workoutPlan = new WorkoutPlan();
         workoutPlan.setName(workoutPlan.getName());
-        workoutPlan.setExercises(workoutPlanDto.getExercises().stream()
-                .map(exerciseService::mapToExercise)
+        workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
+                .map(exerciseService::findExerciseById)
                 .collect(Collectors.toSet()));
         workoutPlan.setSets(workoutPlanDto.getSets());
         workoutPlan.setReps(workoutPlanDto.getReps());
@@ -58,8 +59,8 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
         workoutPlanDto.setId(workoutPlan.getId());
         workoutPlanDto.setName(workoutPlan.getName());
-        workoutPlanDto.setExercises(workoutPlan.getExercises().stream()
-                .map(exerciseService::mapToExerciseDto)
+        workoutPlanDto.setExercisesIds(workoutPlan.getExercises().stream()
+                .map(Exercise::getId)
                 .collect(Collectors.toSet()));
         workoutPlanDto.setSets(workoutPlan.getSets());
         workoutPlanDto.setReps(workoutPlan.getReps());
