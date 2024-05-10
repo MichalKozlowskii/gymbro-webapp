@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add exercise</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:insert="/navbar::navbar"></div>
+
+<br /><br />
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Add exercise</h2>
+        </div>
+
+        <div th:if="${param.success}">
+            <div class="alert alert-info">
+                You have successfully added an exercise!
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form
+                    method="post"
+                    role="form"
+                    th:action="@{/addworkoutplan/save}"
+                    th:object="${workoutPlan}"
+                    class="form-horizontal"
+                    id="exerciseForm"
+            >
+                <div class="form-group mb-3">
+                    <label class="control-label">Name</label>
+                    <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            th:field="*{name}"
+                            class="form-control"
+                            placeholder="Enter name"
+                    />
+                    <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+                </div>
+
+                <div id="exercises" th:attr="data-exercises=${exercisesDto}">
+                </div>
+
+                <div class="form-group mb-3">
+                    <button type="button" id="addExercise" class="btn btn-primary">Add Exercise</button>
+                </div>
+
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<<script th:inline="javascript">
+    let exercisesData = /*[[${exercisesDto}]]*/ null;
+
+    let exerciseIndex = 0;
+
+    document.getElementById('addExercise').addEventListener('click', function () {
+        let exercisesElem = document.getElementById('exercises');
+
+        let exerciseDiv = document.createElement("div");
+        exerciseDiv.setAttribute('class', 'exercise-row mb-3');
+
+        let exerciseSelect = document.createElement("select");
+        exerciseSelect.setAttribute('class', 'form-control');
+        exerciseSelect.setAttribute('name', 'exercisesIds[' + exerciseIndex + ']');
+
+        let defaultOption = document.createElement("option");
+        defaultOption.setAttribute('value', '');
+        defaultOption.appendChild(document.createTextNode('Select Exercise'));
+        exerciseSelect.appendChild(defaultOption);
+
+        exercisesData.forEach(function(exercise) {
+            let option = document.createElement("option");
+            option.setAttribute('value', exercise.id);
+            option.appendChild(document.createTextNode(exercise.name));
+            exerciseSelect.appendChild(option);
+        });
+
+        let setsInput = document.createElement("input");
+        setsInput.setAttribute('type', 'number');
+        setsInput.setAttribute('class', 'form-control');
+        setsInput.setAttribute('placeholder', 'Enter sets');
+        setsInput.setAttribute('name', 'sets[' + exerciseIndex + ']');
+
+        let repsInput = document.createElement("input");
+        repsInput.setAttribute('type', 'number');
+        repsInput.setAttribute('class', 'form-control');
+        repsInput.setAttribute('placeholder', 'Enter reps');
+        repsInput.setAttribute('name', 'reps[' + exerciseIndex + ']');
+
+        let deleteButton = document.createElement("button");
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.setAttribute('class', 'btn btn-danger');
+        deleteButton.appendChild(document.createTextNode('Delete'));
+        deleteButton.addEventListener('click', function () {
+            exerciseDiv.remove();
+        });
+
+        exerciseDiv.appendChild(exerciseSelect);
+        exerciseDiv.appendChild(setsInput);
+        exerciseDiv.appendChild(repsInput);
+        exerciseDiv.appendChild(deleteButton);
+
+        exercisesElem.appendChild(exerciseDiv);
+
+        exerciseIndex++;
+    });
+
+</script>
+
+</body>
+</html>
