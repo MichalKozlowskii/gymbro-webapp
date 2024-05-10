@@ -1,20 +1,21 @@
 package com.gymbro.GymBro.web.DTO;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class WorkoutPlanDto {
     private Long id;
     private String name;
-    private Set<Long> exercisesIds;
+    private List<ExerciseDto> exercises;
     private List<Integer> sets;
     private List<Integer> reps;
     private Long userId;
 
-    public WorkoutPlanDto(Long id, String name, Set<Long> exercisesIds, List<Integer> sets, List<Integer> reps, Long userId) {
+    public WorkoutPlanDto(Long id, String name, List<ExerciseDto> exercises, List<Integer> sets, List<Integer> reps, Long userId) {
         this.id = id;
         this.name = name;
-        this.exercisesIds = exercisesIds;
+        this.exercises = exercises;
         this.sets = sets;
         this.reps = reps;
         this.userId = userId;
@@ -39,12 +40,12 @@ public class WorkoutPlanDto {
         this.name = name;
     }
 
-    public Set<Long> getExercisesIds() {
-        return exercisesIds;
+    public List<ExerciseDto> getExercises() {
+        return exercises;
     }
 
-    public void setExercisesIds(Set<Long> exercisesIds) {
-        this.exercisesIds = exercisesIds;
+    public void setExercises(List<ExerciseDto> exercises) {
+        this.exercises = exercises;
     }
 
     public List<Integer> getSets() {
@@ -76,7 +77,7 @@ public class WorkoutPlanDto {
         return "WorkoutPlanDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", exercisesIds=" + exercisesIds +
+                ", exercises=" + exercises +
                 ", sets=" + sets +
                 ", reps=" + reps +
                 ", userId=" + userId +

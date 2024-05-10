@@ -5,7 +5,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "workout_plan")
@@ -19,7 +18,7 @@ public class WorkoutPlan {
     @JoinTable(name = "workout_plan_exercises",
             joinColumns = @JoinColumn(name = "workout_plan_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
-    private Set<Exercise> exercises;
+    private List<Exercise> exercises;
 
     @ElementCollection
     @Column(name="sets")
@@ -34,7 +33,8 @@ public class WorkoutPlan {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
-    public WorkoutPlan(String name, Set<Exercise> exercises, List<Integer> sets, List<Integer> reps, UserEntity user) {
+    public WorkoutPlan(Long id, String name, List<Exercise> exercises, List<Integer> sets, List<Integer> reps, UserEntity user) {
+        this.id = id;
         this.name = name;
         this.exercises = exercises;
         this.sets = sets;
@@ -61,11 +61,11 @@ public class WorkoutPlan {
         this.name = name;
     }
 
-    public Set<Exercise> getExercises() {
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(Set<Exercise> exercises) {
+    public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
 
