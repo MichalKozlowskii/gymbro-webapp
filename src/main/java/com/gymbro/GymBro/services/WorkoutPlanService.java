@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface WorkoutPlanService {
     void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto);
+    void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto, Long id);
     WorkoutPlan findWorkoutPlanById(Long id);
     List<WorkoutPlanDto> findAllWorkoutPlansOfUser(User user);
     WorkoutPlanDto mapToWorkoutPlanDto(WorkoutPlan workoutPlan);

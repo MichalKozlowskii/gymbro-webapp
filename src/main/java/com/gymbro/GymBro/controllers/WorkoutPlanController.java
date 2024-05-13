@@ -126,4 +126,66 @@ public class WorkoutPlanController {
 
         return "editworkoutplan";
     }
+
+    @PutMapping("workoutplans/edit/{id}")
+    public String editWorkoutPlan(@PathVariable Long id,
+                                  @ModelAttribute("workoutPlan") WorkoutPlanDto workoutPlanDto,
+                                  BindingResult result,
+                                  Model model,
+                                  @AuthenticationPrincipal User user) {
+
+        if (workoutPlanDto.getName() == null || Objects.equals(workoutPlanDto.getName(), "")) {
+            result.rejectValue("name", null, "Name field can't be blank!");
+        }
+
+        List<Long> exerciseIds = workoutPlanDto.getExercisesIds();
+        exerciseIds.removeIf(Objects::isNull);
+
+        List<Integer> sets = workoutPlanDto.getSets();
+        sets.removeIf(Objects::isNull);
+
+        List<Integer> reps = workoutPlanDto.getReps();
+        reps.removeIf(Objects::isNull);
+
+        if (workoutPlanDto.getExercisesIds() == null || exerciseIds.isEmpty()) {
+            result.rejectValue("name", null, "You have to select exercises!");
+        }
+        if (workoutPlanDto.getSets() == null || sets.isEmpty() ) {
+            result.rejectValue("name", null,
+                    "You have to specify amount of sets for each exercise!");
+        }
+
+        if (workoutPlanDto.getReps() == null || reps.isEmpty()) {
+            result.rejectValue("name", null,
+                    "You have to specify amount of reps for each exercise!");
+        }
+
+        if (sets.size() != reps.size() || sets.size() != exerciseIds.size()) {
+            result.rejectValue("name", null,
+                    "Each exercises' sets and reps need to be specified.");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("workoutPlan", workoutPlanDto);
+            model.addAttribute("selectedExercisesNames", workoutPlanDto.getExercisesIds().stream()
+                    .map(exerciseService::findExerciseById)
+                    .map(Exercise::getName)
+                    .toList());
+            model.addAttribute("exercisesDto",
+                    exerciseService.findAllExercisesOfUser(user));
+
+            return "editworkoutplan";
+        }
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        workoutPlanDto.setUserId(userId);
+
+        workoutPlanDto.setExercisesIds(exerciseIds);
+        workoutPlanDto.setSets(sets);
+        workoutPlanDto.setReps(reps);
+
+        workoutPlanService.saveWorkoutPlan(workoutPlanDto, id);
+
+        return "redirect:/workoutplans?editsuccess";
+    }
 }

@@ -40,6 +40,21 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
+    public void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto, Long id) {
+        WorkoutPlan workoutPlan = new WorkoutPlan();
+        workoutPlan.setId(id);
+        workoutPlan.setName(workoutPlanDto.getName());
+        workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
+                .map(exerciseService::findExerciseById)
+                .toList());
+        workoutPlan.setSets(workoutPlanDto.getSets());
+        workoutPlan.setReps(workoutPlanDto.getReps());
+        workoutPlan.setUser(userService.findUserById(workoutPlanDto.getUserId()));
+
+        workoutPlanRepository.save(workoutPlan);
+    }
+
+    @Override
     public WorkoutPlan findWorkoutPlanById(Long id) {
         Optional<WorkoutPlan> workoutPlanOptional = workoutPlanRepository.findById(id);
 

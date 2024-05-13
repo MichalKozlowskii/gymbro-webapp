@@ -19,7 +19,7 @@
             <form
                     th:method="PUT"
                     role="form"
-                    th:action="@{/workoutplans/edit{id}(id = ${workoutPlan.id})}"
+                    th:action="@{/workoutplans/edit/{id}(id = ${workoutPlan.id})}"
                     th:object="${workoutPlan}"
                     class="form-horizontal"
                     id="exerciseForm"
