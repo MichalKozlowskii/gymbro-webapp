@@ -5,6 +5,7 @@ import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.repositories.WorkoutPlanRepository;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,8 +47,9 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
-    public List<WorkoutPlanDto> findAllWorkoutPlansOfUser(UserEntity user) {
-        List<WorkoutPlan> workoutPlans = workoutPlanRepository.findByUser(user);
+    public List<WorkoutPlanDto> findAllWorkoutPlansOfUser(User user) {
+        List<WorkoutPlan> workoutPlans = workoutPlanRepository.findByUser(
+                userService.findUserByName(user.getUsername()));
 
         return workoutPlans.stream()
                 .map(this::mapToWorkoutPlanDto)

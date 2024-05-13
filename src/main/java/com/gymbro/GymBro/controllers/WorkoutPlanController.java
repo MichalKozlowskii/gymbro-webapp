@@ -29,6 +29,11 @@ public class WorkoutPlanController {
         this.userService = userService;
     }
 
+    @GetMapping("/workoutplans")
+    public String getWorkoutPlans(Model model, @AuthenticationPrincipal User user) {
+
+    }
+
     @GetMapping("/addworkoutplan")
     public String showAddWorkoutPlanForm(Model model, @AuthenticationPrincipal User user) {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();

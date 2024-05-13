@@ -1,10 +1,10 @@
 package com.gymbro.GymBro.services;
 
 import com.gymbro.GymBro.models.Exercise;
-import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.repositories.ExerciseRepository;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -54,8 +54,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<ExerciseDto> findAllExercisesOfUser(UserEntity user) {
-        List<Exercise> exercises = exerciseRepository.findByUser(user);
+    public List<ExerciseDto> findAllExercisesOfUser(User user) {
+        List<Exercise> exercises = exerciseRepository.findByUser(
+                userService.findUserByName(user.getUsername()));
 
         return exercises.stream()
                 .map(this::mapToExerciseDto)

@@ -27,7 +27,7 @@ public class ExerciseController {
     @GetMapping("/exercises")
     public String getExercises(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("exercises",
-                exerciseService.findAllExercisesOfUser(userService.findUserByName(user.getUsername())));
+                exerciseService.findAllExercisesOfUser(user));
         return "exercises";
     }
 
