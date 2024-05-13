@@ -15,8 +15,8 @@ public class WorkoutPlan {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "workout_plan_exercises",
-            joinColumns = @JoinColumn(name = "workout_plan_id"),
+    @JoinTable(name = "workoutplan_exercises",
+            joinColumns = @JoinColumn(name = "workoutplan_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
     private List<Exercise> exercises;
 

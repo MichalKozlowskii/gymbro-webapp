@@ -27,7 +27,7 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     @Override
     public void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto) {
         WorkoutPlan workoutPlan = new WorkoutPlan();
-        workoutPlan.setName(workoutPlan.getName());
+        workoutPlan.setName(workoutPlanDto.getName());
         workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
                 .map(exerciseService::findExerciseById)
                 .toList());
