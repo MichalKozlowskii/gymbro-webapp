@@ -31,7 +31,9 @@ public class WorkoutPlanController {
 
     @GetMapping("/workoutplans")
     public String getWorkoutPlans(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("workout_plans", workoutPlanService.findAllWorkoutPlansOfUser(user));
 
+        return "workoutplans";
     }
 
     @GetMapping("/addworkoutplan")
@@ -40,7 +42,7 @@ public class WorkoutPlanController {
 
         model.addAttribute("workoutPlan", workoutPlanDto);
         model.addAttribute("exercisesDto",
-                exerciseService.findAllExercisesOfUser(userService.findUserByName(user.getUsername())));
+                exerciseService.findAllExercisesOfUser(user));
 
         return "addworkoutplan";
     }
@@ -85,7 +87,7 @@ public class WorkoutPlanController {
         if (result.hasErrors()) {
             model.addAttribute("workoutPlan", workoutPlanDto);
             model.addAttribute("exercisesDto",
-                    exerciseService.findAllExercisesOfUser(userService.findUserByName(user.getUsername())));
+                    exerciseService.findAllExercisesOfUser(user));
 
             return "addworkoutplan";
         }
@@ -99,6 +101,6 @@ public class WorkoutPlanController {
 
         workoutPlanService.saveWorkoutPlan(workoutPlanDto);
 
-        return "redirect:/addworkoutplan";
+        return "redirect:/workoutplans?addsuccess";
     }
 }
