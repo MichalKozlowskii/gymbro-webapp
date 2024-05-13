@@ -1,5 +1,7 @@
 package com.gymbro.GymBro.controllers;
 
+import com.gymbro.GymBro.models.Exercise;
+import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.services.ExerciseService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
@@ -9,9 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,14 +29,14 @@ public class WorkoutPlanController {
         this.userService = userService;
     }
 
-    @GetMapping("/workoutplans")
+    @GetMapping("workoutplans")
     public String getWorkoutPlans(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("workout_plans", workoutPlanService.findAllWorkoutPlansOfUser(user));
 
         return "workoutplans";
     }
 
-    @GetMapping("/addworkoutplan")
+    @GetMapping("addworkoutplan")
     public String showAddWorkoutPlanForm(Model model, @AuthenticationPrincipal User user) {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
 
@@ -47,7 +47,7 @@ public class WorkoutPlanController {
         return "addworkoutplan";
     }
 
-    @PostMapping("/addworkoutplan/save")
+    @PostMapping("addworkoutplan/save")
     public String saveWorkoutPlan(@ModelAttribute("workoutPlan") WorkoutPlanDto workoutPlanDto,
                                   BindingResult result,
                                   Model model,
@@ -102,5 +102,28 @@ public class WorkoutPlanController {
         workoutPlanService.saveWorkoutPlan(workoutPlanDto);
 
         return "redirect:/workoutplans?addsuccess";
+    }
+
+    @GetMapping("workoutplans/edit/{id}")
+    public String showEditWorkoutPlanForm(@PathVariable Long id, Model model, @AuthenticationPrincipal User user) {
+        WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(id);
+        WorkoutPlanDto workoutPlanDto = workoutPlanService.mapToWorkoutPlanDto(workoutPlan);
+
+        List<String> selectedExercisesNames = workoutPlan.getExercises().stream()
+                .map(Exercise::getName)
+                .toList();
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+
+        if (!Objects.equals(userId, workoutPlanDto.getUserId())) {
+            return "redirect:/workoutplans";
+        }
+
+        model.addAttribute("workoutPlan", workoutPlanDto);
+        model.addAttribute("selectedExercisesNames", selectedExercisesNames);
+        model.addAttribute("exercisesDto",
+                exerciseService.findAllExercisesOfUser(user));
+
+        return "editworkoutplan";
     }
 }

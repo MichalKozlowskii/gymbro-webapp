@@ -94,7 +94,6 @@ public class ExerciseController {
         }
 
         if (result.hasErrors()) {
-            System.out.println("huuuj");
             model.addAttribute(exerciseDto);
             return "editexercise";
         }
