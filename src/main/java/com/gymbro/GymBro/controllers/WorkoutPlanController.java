@@ -4,7 +4,6 @@ import com.gymbro.GymBro.services.ExerciseService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
-import org.aspectj.apache.bcel.generic.Type;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
