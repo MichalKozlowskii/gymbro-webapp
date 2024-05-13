@@ -188,4 +188,11 @@ public class WorkoutPlanController {
 
         return "redirect:/workoutplans?editsuccess";
     }
+
+    @DeleteMapping("workoutplans/delete/{id}")
+    public String deleteWorkoutPlan(@PathVariable Long id) {
+        workoutPlanService.deleteWorkoutPlanById(id);
+
+        return "redirect:/workoutplans?deletesucces";
+    }
 }
