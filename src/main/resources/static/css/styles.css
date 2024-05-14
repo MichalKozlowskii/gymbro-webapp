@@ -226,8 +226,8 @@ footer ul li a:hover {
     width: 50%;
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
@@ -235,12 +235,58 @@ footer ul li a:hover {
 }
 
 .exercise-bar span {
-    font-size: 16px;
+    font-size: 18px;
     color: white;
 }
 
 .exercise-actions {
-    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.workout-plan-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.workout-plan-bar {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.workout-plan-bar h3 {
+    font-size: 24px;
+    color: white;
+}
+
+.workout-plan-bar span {
+    font-size: 20px;
+    color: white;
+}
+
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem; /* Adjust font size as needed */
+    line-height: 1.5;
+    border-radius: 0.1rem;
+    margin-right: 10px;
+    align-self: center;
+}
+
+.exercise-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .view-button, .delete-button {
@@ -260,11 +306,4 @@ footer ul li a:hover {
 
 .list li {
     margin-bottom: 5px;
-}
-
-.btn-small {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem; /* Adjust font size as needed */
-    line-height: 1.5;
-    border-radius: 0.2rem;
 }

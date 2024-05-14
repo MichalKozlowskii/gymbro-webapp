@@ -42,10 +42,10 @@
     </div>
 
     <div th:if="${not #lists.isEmpty(workout_plans)}">
-        <div th:each="workoutplan : ${workout_plans}" class="exercise-bar">
-            <span th:text="${workoutplan.name}">Workout plan name</span>
+        <div th:each="workoutplan : ${workout_plans}" class="workout-plan-bar">
+            <h3 th:text="${workoutplan.name}">Workout plan name</h3>
 
-            <div class="exercise-actions">
+            <div class="workout-plan-actions ">
                 <form action="#" th:action="@{'/workoutplans/delete/{id}'(id=${workoutplan.id})}" th:method="delete">
                     <a class="btn btn-primary" th:href="@{'/workoutplans/edit/{id}'(id=${workoutplan.id})}">Edit</a>
                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -55,16 +55,17 @@
             <div class="list">
                 <ul>
                     <li th:each="index : ${#numbers.sequence(0, workoutplan.getSets().size() - 1)}">
-                        <span th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">
-                            exercise name
-                        </span>
-                        <span th:text="${workoutplan.getSets().get(index)}">sets number</span>
-                        <span>x</span>
-                        <span th:text="${workoutplan.getReps().get(index)}">reps number</span>
-
-                        <button class="btn btn-primary btn-small" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}">
-                            View Description
-                        </button>
+                        <div class="exercise-info">
+                            <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}">
+                                i
+                            </button>
+                            <span th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">
+                                exercise name
+                            </span>
+                            <span th:text="${workoutplan.getSets().get(index)}">sets number</span>
+                            <span>x</span>
+                            <span th:text="${workoutplan.getReps().get(index)}">reps number</span>
+                        </div>
 
                         <!-- Description modal -->
                         <div class="modal fade" th:id="'descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
