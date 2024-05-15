@@ -95,8 +95,6 @@ public class WorkoutPlanController {
         workoutPlanDto.setExercisesIds(exerciseIds);
         workoutPlanDto.setSets(sets);
         workoutPlanDto.setReps(reps);
-
-        Long userId = userService.findUserByName(user.getUsername()).getId();
         workoutPlanDto.setUserId(userId);
 
         workoutPlanService.saveWorkoutPlan(workoutPlanDto);
@@ -114,7 +112,6 @@ public class WorkoutPlanController {
                 .toList();
 
         Long userId = userService.findUserByName(user.getUsername()).getId();
-
         if (!Objects.equals(userId, workoutPlanDto.getUserId())) {
             return "redirect:/workoutplans";
         }
@@ -133,6 +130,11 @@ public class WorkoutPlanController {
                                   BindingResult result,
                                   Model model,
                                   @AuthenticationPrincipal User user) {
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        if (!Objects.equals(userId, workoutPlanDto.getUserId())) {
+            return "redirect:/workoutplans";
+        }
 
         if (workoutPlanDto.getName() == null || Objects.equals(workoutPlanDto.getName(), "")) {
             result.rejectValue("name", null, "Name field can't be blank!");
@@ -177,9 +179,7 @@ public class WorkoutPlanController {
             return "editworkoutplan";
         }
 
-        Long userId = userService.findUserByName(user.getUsername()).getId();
         workoutPlanDto.setUserId(userId);
-
         workoutPlanDto.setExercisesIds(exerciseIds);
         workoutPlanDto.setSets(sets);
         workoutPlanDto.setReps(reps);
@@ -190,7 +190,14 @@ public class WorkoutPlanController {
     }
 
     @DeleteMapping("workoutplans/delete/{id}")
-    public String deleteWorkoutPlan(@PathVariable Long id) {
+    public String deleteWorkoutPlan(@PathVariable Long id, @AuthenticationPrincipal User user) {
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        Long workoutPlanUserId = workoutPlanService.findWorkoutPlanById(id).getUser().getId();
+        if (!Objects.equals(userId, workoutPlanUserId)) {
+            return "redirect:/workoutplans";
+        }
+
         workoutPlanService.deleteWorkoutPlanById(id);
 
         return "redirect:/workoutplans?deletesucces";
