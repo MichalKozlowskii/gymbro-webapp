@@ -33,8 +33,7 @@ public class WorkoutPlan {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
-    public WorkoutPlan(Long id, String name, List<Exercise> exercises, List<Integer> sets, List<Integer> reps, UserEntity user) {
-        this.id = id;
+    public WorkoutPlan(String name, List<Exercise> exercises, List<Integer> sets, List<Integer> reps, UserEntity user) {
         this.name = name;
         this.exercises = exercises;
         this.sets = sets;
