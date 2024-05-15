@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym Bro- workout plans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+<div th:insert="/navbar::navbar"></div>
+
+<div class="caption">
+    <h2>Your workout plans</h2>
+    <a class="button-like" th:href="@{/addworkoutplan}">Add workout plan</a>
+</div>
+
+<div class="subsiteContainer">
+    <div class="subsiteContent">
+        <div th:if="${param.addsuccess}">
+            <div class="alert alert-info">
+                You have successfully added a workout plan.
+            </div>
+        </div>
+        <div th:if="${param.editsuccess}">
+            <div class="alert alert-info">
+                You have successfully edited a workout plan.
+            </div>
+        </div>
+        <div th:if="${param.deletesuccess}">
+            <div class="alert alert-info">
+                You have successfully deleted workout plan.
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(workout_plans)}">
+            <h1>No workout plans found. Add some!</h1>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(workout_plans)}">
+            <div th:each="workoutplan : ${workout_plans}" class="workout-plan-bar">
+                <h3 th:text="${workoutplan.name}">Workout plan name</h3>
+
+                <div class="workout-plan-actions ">
+                    <form action="#" th:action="@{'/workoutplans/delete/{id}'(id=${workoutplan.id})}" th:method="delete">
+                        <a class="btn btn-primary" th:href="@{'/workoutplans/edit/{id}'(id=${workoutplan.id})}">Edit</a>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+
+                <div class="list">
+                    <ul>
+                        <li th:each="index : ${#numbers.sequence(0, workoutplan.getSets().size() - 1)}">
+                            <div class="exercise-info">
+                                <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}">
+                                    i
+                                </button>
+                                <span th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">
+                                    exercise name
+                                </span>
+                                <span th:text="${workoutplan.getSets().get(index)}">sets number</span>
+                                <span>x</span>
+                                <span th:text="${workoutplan.getReps().get(index)}">reps number</span>
+                            </div>
+
+                            <!-- Description modal -->
+                            <div class="modal fade" th:id="'descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel" th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">Title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2 th:text="${@exerciseServiceImpl.getExerciseDescriptionById(workoutplan.getExercisesIds().get(index))}">
+                                                Description
+                                            </h2>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

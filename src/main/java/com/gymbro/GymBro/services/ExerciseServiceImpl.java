@@ -1,10 +1,10 @@
 package com.gymbro.GymBro.services;
 
 import com.gymbro.GymBro.models.Exercise;
-import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.repositories.ExerciseRepository;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -47,6 +47,16 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public String getExerciseNameById(Long id) {
+        return findExerciseById(id).getName();
+    }
+
+    @Override
+    public String getExerciseDescriptionById(Long id) {
+        return findExerciseById(id).getDescription();
+    }
+
+    @Override
     public Exercise findExerciseById(Long id) {
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(id);
 
@@ -54,8 +64,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<ExerciseDto> findAllExercisesOfUser(UserEntity user) {
-        List<Exercise> exercises = exerciseRepository.findByUser(user);
+    public List<ExerciseDto> findAllExercisesOfUser(User user) {
+        List<Exercise> exercises = exerciseRepository.findByUser(
+                userService.findUserByName(user.getUsername()));
 
         return exercises.stream()
                 .map(this::mapToExerciseDto)
@@ -71,5 +82,16 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseDto.setUserId(exercise.getUser().getId());
 
         return exerciseDto;
+    }
+
+    @Override
+    public Exercise mapToExercise(ExerciseDto exerciseDto) {
+        Exercise exercise = new Exercise();
+        exercise.setName(exerciseDto.getName());
+        exercise.setDescription(exercise.getDescription());
+        exercise.setUser(userService.findUserById(exerciseDto.getUserId()));
+        exercise.setId(exerciseDto.getId());
+
+        return exercise;
     }
 }

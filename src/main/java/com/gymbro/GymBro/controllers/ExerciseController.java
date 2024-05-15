@@ -27,7 +27,7 @@ public class ExerciseController {
     @GetMapping("/exercises")
     public String getExercises(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("exercises",
-                exerciseService.findAllExercisesOfUser(userService.findUserByName(user.getUsername())));
+                exerciseService.findAllExercisesOfUser(user));
         return "exercises";
     }
 
@@ -62,7 +62,14 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/exercises/delete/{id}")
-    public String deleteExercise(@PathVariable Long id) {
+    public String deleteExercise(@PathVariable Long id, @AuthenticationPrincipal User user) {
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        Long exerciseUserId = exerciseService.findExerciseById(id).getUser().getId();
+
+        if (!Objects.equals(userId, exerciseUserId)) {
+            return "redirect:/workoutplans";
+        }
+
         exerciseService.deleteExerciseById(id);
 
         return "redirect:/exercises?deletesuccess";
@@ -74,7 +81,6 @@ public class ExerciseController {
         ExerciseDto exerciseDto = exerciseService.mapToExerciseDto(exercise);
 
         Long userId = userService.findUserByName(user.getUsername()).getId();
-
         if (!Objects.equals(userId, exerciseDto.getUserId())) {
             return "redirect:/exercises";
         }
@@ -85,16 +91,23 @@ public class ExerciseController {
     }
 
     @PutMapping("exercises/edit/{id}")
-    public String editExercise(@ModelAttribute("exercise") ExerciseDto exerciseDto,
+    public String editExercise(@PathVariable Long id,
+                               @ModelAttribute("exercise") ExerciseDto exerciseDto,
                                BindingResult result,
-                               Model model) {
+                               Model model,
+                               @AuthenticationPrincipal User user) {
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        Long exerciseUserId = exerciseService.findExerciseById(id).getUser().getId();
+        if (!Objects.equals(userId, exerciseDto.getUserId())) {
+            return "redirect:/exercises";
+        }
 
         if (exerciseDto.getName().isEmpty()) {
             result.rejectValue("name", null, "Name field can't be blank!");
         }
 
         if (result.hasErrors()) {
-            System.out.println("huuuj");
             model.addAttribute(exerciseDto);
             return "editexercise";
         }
