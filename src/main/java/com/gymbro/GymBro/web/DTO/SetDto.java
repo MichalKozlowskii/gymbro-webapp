@@ -1,18 +1,22 @@
 package com.gymbro.GymBro.web.DTO;
 
+import java.time.LocalDateTime;
+
 public class SetDto {
     private Long id;
     private Long workoutId;
     private Long exerciseId;
     private int reps;
     private double weight;
+    private LocalDateTime dateTime;
 
-    public SetDto(Long id, Long workoutId, Long exerciseId, int reps, double weight) {
+    public SetDto(Long id, Long workoutId, Long exerciseId, int reps, double weight, LocalDateTime localDateTime) {
         this.id = id;
         this.workoutId = workoutId;
         this.exerciseId = exerciseId;
         this.reps = reps;
         this.weight = weight;
+        this.dateTime = localDateTime;
     }
 
     public SetDto() {
@@ -56,5 +60,13 @@ public class SetDto {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

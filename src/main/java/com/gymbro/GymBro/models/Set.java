@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "sets")
 public class Set {
@@ -23,12 +25,14 @@ public class Set {
 
     private int reps;
     private double weight;
+    private LocalDateTime dateTime;
 
-    public Set(Workout workout, Exercise exercise, int reps, double weight) {
+    public Set(Workout workout, Exercise exercise, int reps, double weight, LocalDateTime localDateTime) {
         this.workout = workout;
         this.exercise = exercise;
         this.reps = reps;
         this.weight = weight;
+        this.dateTime = localDateTime;
     }
 
     public Set() {
@@ -72,5 +76,13 @@ public class Set {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }
