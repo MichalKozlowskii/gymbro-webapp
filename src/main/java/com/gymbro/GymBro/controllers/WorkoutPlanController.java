@@ -92,10 +92,12 @@ public class WorkoutPlanController {
             return "addworkoutplan";
         }
 
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        workoutPlanDto.setUserId(userId);
+
         workoutPlanDto.setExercisesIds(exerciseIds);
         workoutPlanDto.setSets(sets);
         workoutPlanDto.setReps(reps);
-        workoutPlanDto.setUserId(userId);
 
         workoutPlanService.saveWorkoutPlan(workoutPlanDto);
 
