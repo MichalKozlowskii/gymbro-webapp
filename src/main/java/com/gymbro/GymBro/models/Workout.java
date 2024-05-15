@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,13 @@ public class Workout {
             inverseJoinColumns = @JoinColumn(name = "set_id"))
     List<Set> sets = new ArrayList<>();
 
-    public Workout(UserEntity user, WorkoutPlan workoutPlan, List<Set> sets) {
+    private LocalDateTime dateTime;
+
+    public Workout(UserEntity user, WorkoutPlan workoutPlan, List<Set> sets, LocalDateTime dateTime) {
         this.user = user;
         this.workoutPlan = workoutPlan;
         this.sets = sets;
+        this.dateTime = dateTime;
     }
 
     public Workout() {
@@ -68,5 +72,13 @@ public class Workout {
 
     public void setSets(List<Set> sets) {
         this.sets = sets;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }
