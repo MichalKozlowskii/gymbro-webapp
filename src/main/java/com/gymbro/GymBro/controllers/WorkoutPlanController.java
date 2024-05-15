@@ -30,7 +30,7 @@ public class WorkoutPlanController {
     }
 
     private boolean validateWorkoutPlan(WorkoutPlanDto workoutPlanDto, BindingResult result) {
-        if (workoutPlanDto.getName() == null || workoutPlanDto.getName().isEmpty()) {
+        if (workoutPlanDto.getName() == null || Objects.equals(workoutPlanDto.getName(), "")) {
             result.rejectValue("name", null, "Name field can't be blank!");
         }
 
@@ -63,14 +63,14 @@ public class WorkoutPlanController {
         }
 
         if (hasErrors) {
-            return true;
+            return false;
         }
 
         workoutPlanDto.setExercisesIds(exerciseIds);
         workoutPlanDto.setSets(sets);
         workoutPlanDto.setReps(reps);
 
-        return false;
+        return true;
     }
 
     @GetMapping("workoutplans")
@@ -97,7 +97,7 @@ public class WorkoutPlanController {
                                   Model model,
                                   @AuthenticationPrincipal User user) {
 
-        if (validateWorkoutPlan(workoutPlanDto, result)) {
+        if (!validateWorkoutPlan(workoutPlanDto, result)) {
             model.addAttribute("workoutPlan", workoutPlanDto);
             model.addAttribute("exercisesDto", exerciseService.findAllExercisesOfUser(user));
             return "addworkoutplan";
@@ -147,7 +147,7 @@ public class WorkoutPlanController {
             return "redirect:/workoutplans";
         }
 
-        if (validateWorkoutPlan(workoutPlanDto, result)) {
+        if (!validateWorkoutPlan(workoutPlanDto, result)) {
             model.addAttribute("workoutPlan", workoutPlanDto);
             model.addAttribute("selectedExercisesNames", workoutPlanDto.getExercisesIds().stream()
                     .map(exerciseService::findExerciseById)
