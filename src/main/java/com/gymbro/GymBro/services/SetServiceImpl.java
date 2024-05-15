@@ -2,7 +2,9 @@ package com.gymbro.GymBro.services;
 
 import com.gymbro.GymBro.models.Set;
 import com.gymbro.GymBro.web.DTO.SetDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SetServiceImpl implements SetService {
     @Override
     public SetDto mapToSetDto(Set set) {
