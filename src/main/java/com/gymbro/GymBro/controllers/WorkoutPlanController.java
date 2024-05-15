@@ -62,11 +62,15 @@ public class WorkoutPlanController {
             hasErrors = true;
         }
 
+        if (hasErrors) {
+            return true;
+        }
+
         workoutPlanDto.setExercisesIds(exerciseIds);
         workoutPlanDto.setSets(sets);
         workoutPlanDto.setReps(reps);
 
-        return !hasErrors;
+        return false;
     }
 
     @GetMapping("workoutplans")
@@ -93,7 +97,7 @@ public class WorkoutPlanController {
                                   Model model,
                                   @AuthenticationPrincipal User user) {
 
-        if (!validateWorkoutPlan(workoutPlanDto, result)) {
+        if (validateWorkoutPlan(workoutPlanDto, result)) {
             model.addAttribute("workoutPlan", workoutPlanDto);
             model.addAttribute("exercisesDto", exerciseService.findAllExercisesOfUser(user));
             return "addworkoutplan";
@@ -137,11 +141,13 @@ public class WorkoutPlanController {
                                   @AuthenticationPrincipal User user) {
 
         Long userId = userService.findUserByName(user.getUsername()).getId();
-        if (!Objects.equals(userId, workoutPlanDto.getUserId())) {
+        Long workoutPlanUserId = workoutPlanService.findWorkoutPlanById(id).getUser().getId();
+
+        if (!Objects.equals(userId, workoutPlanUserId)) {
             return "redirect:/workoutplans";
         }
 
-        if (!validateWorkoutPlan(workoutPlanDto, result)) {
+        if (validateWorkoutPlan(workoutPlanDto, result)) {
             model.addAttribute("workoutPlan", workoutPlanDto);
             model.addAttribute("selectedExercisesNames", workoutPlanDto.getExercisesIds().stream()
                     .map(exerciseService::findExerciseById)
@@ -150,6 +156,8 @@ public class WorkoutPlanController {
             model.addAttribute("exercisesDto", exerciseService.findAllExercisesOfUser(user));
             return "editworkoutplan";
         }
+
+        System.out.println(workoutPlanDto.toString());
 
         workoutPlanDto.setUserId(userId);
 
@@ -169,6 +177,6 @@ public class WorkoutPlanController {
 
         workoutPlanService.deleteWorkoutPlanById(id);
 
-        return "redirect:/workoutplans?deletesucces";
+        return "redirect:/workoutplans?deletesuccess";
     }
 }

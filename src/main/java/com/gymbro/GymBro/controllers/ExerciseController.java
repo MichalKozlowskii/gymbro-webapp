@@ -91,12 +91,14 @@ public class ExerciseController {
     }
 
     @PutMapping("exercises/edit/{id}")
-    public String editExercise(@ModelAttribute("exercise") ExerciseDto exerciseDto,
+    public String editExercise(@PathVariable Long id,
+                               @ModelAttribute("exercise") ExerciseDto exerciseDto,
                                BindingResult result,
                                Model model,
                                @AuthenticationPrincipal User user) {
 
         Long userId = userService.findUserByName(user.getUsername()).getId();
+        Long exerciseUserId = exerciseService.findExerciseById(id).getUser().getId();
         if (!Objects.equals(userId, exerciseDto.getUserId())) {
             return "redirect:/exercises";
         }
