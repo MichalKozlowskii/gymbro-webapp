@@ -7,17 +7,39 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final UserService userService;
     private final SetService setService;
+    private final WorkoutPlanService workoutPlanService;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserService userService, SetService setService) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserService userService,
+                              SetService setService, WorkoutPlanService workoutPlanService) {
         this.workoutRepository = workoutRepository;
         this.userService = userService;
         this.setService = setService;
+        this.workoutPlanService = workoutPlanService;
+    }
+
+    @Override
+    public void saveWorkout(WorkoutDto workoutDto) {
+        Workout workout = new Workout();
+        workout.setUser(userService.findUserById(workoutDto.getUserId()));
+        workout.setWorkoutPlan(workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId()));
+        workout.setDateTime(workoutDto.getDateTime());
+
+        workoutRepository.save(workout);
+    }
+
+    @Override
+    public Workout findWorkoutById(Long id) {
+        Optional<Workout> workoutOptional = workoutRepository.findById(id);
+
+        return workoutOptional.orElseThrow(() -> new NoSuchElementException("Workout not found with id: " + id));
     }
 
     @Override
