@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
-    List<Workout> findbyUser(UserEntity user);
+    List<Workout> findByUser(UserEntity user);
 }
