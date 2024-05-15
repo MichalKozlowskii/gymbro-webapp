@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Add exercise</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:insert="/navbar::navbar"></div>
+
+<br /><br />
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Start workout</h2>
+        </div>
+
+        <div th:if="${param.success}">
+            <div class="alert alert-info">
+                You have successfully added an exercise!
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form
+                    method="post"
+                    role="form"
+                    th:action="@{/addworkout/save}"
+                    th:object="${workout}"
+                    class="form-horizontal"
+            >
+                <div class="form-group mb-3">
+                    <label class="control-label">Workout Plan</label>
+                    <select id="workoutPlan"
+                            name="workoutPlan"
+                            th:field="*{workoutPlanId}"
+                            class="form-control">
+                        <option th:each="workoutPlan : ${workoutplans}"
+                                th:value="${workoutPlan.id}"
+                                th:text="${workoutPlan.name}">Workout Plan</option>
+                    </select>
+                    <p th:errors="*{workoutPlanId}"
+                       class="text-danger"
+                       th:if="${#fields.hasErrors('workoutPlanId')}"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-primary" >Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
