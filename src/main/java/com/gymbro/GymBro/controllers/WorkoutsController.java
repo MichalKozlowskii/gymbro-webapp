@@ -1,8 +1,11 @@
 package com.gymbro.GymBro.controllers;
 
+import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.services.WorkoutService;
+import com.gymbro.GymBro.web.DTO.ExerciseDto;
+import com.gymbro.GymBro.web.DTO.SetDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class WorkoutsController {
@@ -35,7 +38,16 @@ public class WorkoutsController {
     public String getWorkouts(Model model, @AuthenticationPrincipal User user) {
         List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user);
 
+        Map<WorkoutDto, WorkoutPlan> workoutDtoWorkoutPlanMap = new HashMap<>();
+
+        for (WorkoutDto workoutDto : workouts) {
+            WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId());
+
+            workoutDtoWorkoutPlanMap.put(workoutDto, workoutPlan);
+        }
+
         model.addAttribute("workouts", workouts);
+        model.addAttribute("workoutDtoWorkoutPlanMap", workoutDtoWorkoutPlanMap);
 
         return "workouts";
     }
