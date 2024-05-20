@@ -21,12 +21,6 @@
       <h2 class="text-center" th:text="${exerciseName}">Exercise name</h2>
     </div>
 
-    <div th:if="${param.success}">
-      <div class="alert alert-info">
-        You have successfully added an exercise!
-      </div>
-    </div>
-
     <div class="card-body">
       <form
               method="post"
@@ -54,6 +48,7 @@
           <label class="control-label">Weight</label>
           <input
                   type="number"
+                  step="0.01"
                   id="description"
                   name="description"
                   class="form-control"
