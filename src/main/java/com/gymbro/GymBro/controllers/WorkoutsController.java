@@ -1,6 +1,7 @@
 package com.gymbro.GymBro.controllers;
 
 import com.gymbro.GymBro.models.Set;
+import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.services.SetService;
 import com.gymbro.GymBro.services.UserService;
@@ -15,10 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -88,5 +86,19 @@ public class WorkoutsController {
         workoutService.saveWorkout(workoutDto);
 
         return "redirect:/workouts?addsuccess";
+    }
+
+    @DeleteMapping("/workouts/delete/{id}")
+    public String deleteWorkout(@PathVariable("id") Long id,
+                                @AuthenticationPrincipal User user) {
+
+        Workout workout = workoutService.findWorkoutById(id);
+        if (!Objects.equals(workout.getUser().getName(), user.getUsername())) {
+            return "redirect:/workouts";
+        }
+
+        workoutService.deleteWorkout(id);
+
+        return "redirect:/workouts?deletesuccess";
     }
 }

@@ -74,6 +74,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    public void deleteWorkout(Long workoutId) {
+        workoutRepository.deleteById(workoutId);
+    }
+
+    @Override
     public Workout findWorkoutById(Long id) {
         Optional<Workout> workoutOptional = workoutRepository.findById(id);
 
