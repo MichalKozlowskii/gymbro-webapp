@@ -72,6 +72,14 @@
                                 <span th:text="${workoutDtoWorkoutPlanMap.get(workout).getReps().get(index)}">reps number</span>
                             </div>
 
+
+                            <div th:each="set : ${setService.findSetsOfExerciseInWorkout(workout, workoutDtoWorkoutPlanMap.get(workout).getExercises().get(index))}">
+                                <span th:text="${set.getReps}">Reps</span>
+                                <span>x</span>
+                                <span th:text="${set.getWeight}">Weight</span>
+                                <span>kg</span>
+                            </div>
+
                             <!-- Description modal -->
                             <div class="modal fade" th:id="'descriptionModal-' + ${workoutDtoWorkoutPlanMap.get(workout).getExercises.get(index).getId()}"
                                  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

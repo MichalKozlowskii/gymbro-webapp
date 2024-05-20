@@ -1,6 +1,8 @@
 package com.gymbro.GymBro.controllers;
 
+import com.gymbro.GymBro.models.Set;
 import com.gymbro.GymBro.models.WorkoutPlan;
+import com.gymbro.GymBro.services.SetService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.services.WorkoutService;
@@ -27,11 +29,14 @@ public class WorkoutsController {
     private final WorkoutService workoutService;
     private final WorkoutPlanService workoutPlanService;
     private final UserService userService;
+    private final SetService setService;
 
-    public WorkoutsController(WorkoutService workoutService, WorkoutPlanService workoutPlanService, UserService userService) {
+    public WorkoutsController(WorkoutService workoutService, WorkoutPlanService workoutPlanService,
+                              UserService userService, SetService setService) {
         this.workoutService = workoutService;
         this.workoutPlanService = workoutPlanService;
         this.userService = userService;
+        this.setService = setService;
     }
 
     @GetMapping("/workouts")
@@ -39,15 +44,19 @@ public class WorkoutsController {
         List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user);
 
         Map<WorkoutDto, WorkoutPlan> workoutDtoWorkoutPlanMap = new HashMap<>();
+        Map<WorkoutDto, List<Set>> workoutDtoSetMap = new HashMap<>();
 
         for (WorkoutDto workoutDto : workouts) {
             WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId());
 
             workoutDtoWorkoutPlanMap.put(workoutDto, workoutPlan);
+            workoutDtoSetMap.put(workoutDto, setService.findByWorkoutId(workoutDto.getId()));
         }
 
         model.addAttribute("workouts", workouts);
         model.addAttribute("workoutDtoWorkoutPlanMap", workoutDtoWorkoutPlanMap);
+        model.addAttribute("workoutDtoSetMap", workoutDtoSetMap);
+        model.addAttribute("setService", setService);
 
         return "workouts";
     }

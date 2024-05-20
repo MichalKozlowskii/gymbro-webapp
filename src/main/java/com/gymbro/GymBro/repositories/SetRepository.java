@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface SetRepository extends JpaRepository<Set, Long> {
-    List<Set> findByWorkout(Workout workout);
-    List<Set> findByExercise(Exercise exercise);
+    List<Set> findByWorkoutId(Long id);
 }
