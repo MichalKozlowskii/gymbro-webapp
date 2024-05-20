@@ -69,4 +69,16 @@ public class SetDto {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+
+    @Override
+    public String toString() {
+        return "SetDto{" +
+                "id=" + id +
+                ", workoutId=" + workoutId +
+                ", exerciseId=" + exerciseId +
+                ", reps=" + reps +
+                ", weight=" + weight +
+                ", dateTime=" + dateTime +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package com.gymbro.GymBro.services;
 
 import com.gymbro.GymBro.models.Set;
+import com.gymbro.GymBro.repositories.SetRepository;
 import com.gymbro.GymBro.web.DTO.SetDto;
 import org.springframework.stereotype.Service;
 

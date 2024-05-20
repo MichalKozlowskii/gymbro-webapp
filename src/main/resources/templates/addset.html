@@ -31,7 +31,7 @@
       <form
               method="post"
               role="form"
-              th:action="@{/addset/save}"
+              th:action="@{'/workouts/' + ${workoutId} + '/addset/' + ${exerciseId} + '/save'}"
               th:object="${setDto}"
               class="form-horizontal"
       >
