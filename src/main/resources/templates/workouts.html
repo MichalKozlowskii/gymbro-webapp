@@ -44,7 +44,10 @@
 
         <div th:if="${not #lists.isEmpty(workouts)}">
             <div th:each="workout : ${workouts}" class="workout-plan-bar">
-                <h3>Workout plan name</h3>
+                <h3 th:text="${@workoutPlanServiceImpl.findWorkoutPlanById(workout.getWorkoutPlanId()).getName()}">
+                    Workout plan name
+                </h3>
+                <h3 th:text="${workout.getDateTime()}">date</h3>
 
                 <div class="workout-plan-actions ">
                     <form action="#" th:action="@{'/workouts/delete/{id}'(id=${workout.id})}" th:method="delete">
