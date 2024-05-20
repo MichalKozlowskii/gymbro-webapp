@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -59,6 +60,17 @@ public class WorkoutServiceImpl implements WorkoutService {
         workout.setSets(sets);
 
         workoutRepository.save(workout);
+    }
+
+    @Override
+    public void deleteSet(Long workoutId, Long setId) {
+        Workout workout = findWorkoutById(workoutId);
+
+        List<Set> sets = workout.getSets();
+        sets.removeIf(set -> Objects.equals(set.getId(), setId));
+
+        workoutRepository.save(workout);
+        setRepository.deleteById(setId);
     }
 
     @Override

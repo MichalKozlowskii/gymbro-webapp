@@ -11,6 +11,7 @@ import java.util.List;
 public interface WorkoutService {
     void saveWorkout(WorkoutDto workoutDto);
     void addSet(Workout workout, SetDto setDto);
+    void deleteSet(Long workoutId, Long SetId);
     Workout findWorkoutById(Long id);
     List<WorkoutDto> findAllWorkoutsOfUser(User user);
     WorkoutDto mapToWorkoutDto(Workout workout);

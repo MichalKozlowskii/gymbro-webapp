@@ -73,7 +73,12 @@
                             </div>
 
 
-                            <div th:each="set : ${setService.findSetsOfExerciseInWorkout(workout, workoutDtoWorkoutPlanMap.get(workout).getExercises().get(index))}">
+                            <div class="exercise-info" th:each="set : ${setService.findSetsOfExerciseInWorkout(workout, workoutDtoWorkoutPlanMap.get(workout).getExercises().get(index))}">
+                                <form action="#" th:action="@{/workouts/{workoutId}/deleteset/{setId}(workoutId=${workout.id}, setId=${set.id})}" th:method="delete">
+                                    <button class="btn btn-danger btn-small rounded">
+                                        x
+                                    </button>
+                                </form>
                                 <span th:text="${set.getReps}">Reps</span>
                                 <span>x</span>
                                 <span th:text="${set.getWeight}">Weight</span>
