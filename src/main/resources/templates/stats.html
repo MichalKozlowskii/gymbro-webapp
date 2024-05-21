@@ -2,16 +2,58 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gym Bro- stats</title>
+    <title>Gym Bro- workout plans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
+
 </head>
 <body>
-    <div th:insert="/navbar::navbar"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
+<div th:insert="/navbar::navbar"></div>
+
+<div class="caption">
+    <h2>Your stats</h2>
+    <a class="button-like">Add workout plan</a>
+</div>
+
+<div class="subsiteContainer">
     <div class="subsiteContent">
-        <h1>W.I.P.</h1>
-    </div>
 
-    <div th:insert="/footer::footer"></div>
+        <div th:if="${#lists.isEmpty(exercises)}">
+            <h1>No data!</h1>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(exercises)}">
+            <div th:each="exercise : ${exercises}" class="workout-plan-bar">
+                <h3 th:text="${exercise.name}">Exercise name</h3>
+
+                <div class="list">
+                    <ul th:with="bestSets = ${exerciseBestSetsMap.get(exercise)}">
+                        <li>
+                            <div class="exercise-info">
+                                <span>Most weight: </span>
+                                <span th:text="${bestSets.get(0).getReps()}"></span>
+                                <span>x</span>
+                                <span th:text="${bestSets.get(0).getWeight()}"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="exercise-info">
+                                <span>Most reps: </span>
+                                <span th:text="${bestSets.get(1).getReps()}"></span>
+                                <span>x</span>
+                                <span th:text="${bestSets.get(1).getWeight()}"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
