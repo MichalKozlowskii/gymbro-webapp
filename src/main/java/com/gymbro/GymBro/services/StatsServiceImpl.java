@@ -3,9 +3,11 @@ package com.gymbro.GymBro.services;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import com.gymbro.GymBro.web.DTO.SetDto;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class StatsServiceImpl implements StatsService {
     private final ExerciseService exerciseService;
     private final SetService setService;
@@ -26,7 +28,6 @@ public class StatsServiceImpl implements StatsService {
 
             SetDto mostWeight = new SetDto();
             SetDto mostReps = new SetDto();
-            SetDto overallBest = new SetDto();
 
             for (SetDto setDto : setDtos) {
                 if (setDto.getWeight() > mostWeight.getWeight()) {
@@ -42,13 +43,9 @@ public class StatsServiceImpl implements StatsService {
                 else if (setDto.getReps() == mostReps.getReps() && setDto.getWeight() > mostReps.getWeight()) {
                     mostReps = setDto;
                 }
-
-                if (setDto.getWeight() * setDto.getReps() > overallBest.getReps() * overallBest.getWeight()) {
-                    overallBest = setDto;
-                }
             }
 
-            List<SetDto> bestSets = Arrays.asList(overallBest, mostWeight, mostReps);
+            List<SetDto> bestSets = Arrays.asList(mostWeight, mostReps);
             exerciseBestSetsMap.put(exerciseDto, bestSets);
         }
 
