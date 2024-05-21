@@ -34,8 +34,10 @@ public class SetServiceImpl implements SetService {
     }
 
     @Override
-    public List<Set> findSetsOfExerciseById(Long id) {
-        return setRepository.findByExerciseId(id);
+    public List<SetDto> findSetsOfExerciseById(Long id) {
+        return setRepository.findByExerciseId(id).stream()
+                .map(this::mapToSetDto)
+                .toList();
     }
 
     @Override
