@@ -68,5 +68,16 @@
         </div>
     </div>
 </div>
+
+<<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const val = urlParams.get("sortOptions");
+
+        document.getElementById("sortOptions").selectedIndex = val;
+        document.getElementById("sortOptions").value = val;
+    });
+</script>
 </body>
 </html>
