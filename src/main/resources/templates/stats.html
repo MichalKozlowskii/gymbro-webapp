@@ -17,7 +17,20 @@
 
 <div class="caption">
     <h2>Your stats</h2>
-    <a class="button-like">Add workout plan</a>
+    <form
+            method="get"
+            role="form"
+            th:action="@{/stats/sorted}"
+    >
+        <label for="sortOptions">Sort by:</label>
+        <select id="sortOptions" name="sortOptions">
+            <option value="1">Weight: Descending</option>
+            <option value="2">Weight: Ascending</option>
+            <option value="3">Reps: Descending</option>
+            <option value="4">Reps: Ascending</option>
+        </select>
+        <input type="submit" value="Sort">
+    </form>
 </div>
 
 <div class="subsiteContainer">
