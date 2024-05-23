@@ -40,16 +40,16 @@ public class StatsController {
     public String sortExercises(@RequestParam("sortOptions") int value,
                                 Model model,
                                 @AuthenticationPrincipal User user) {
-        // 1 - Weight: Descending
-        // 2 - Weight: Ascending
-        // 3 - Reps: Descending
-        // 4 - Reps: Ascending
 
         Map<ExerciseDto, List<SetDto>> exerciseBestSetsMap = statsService.findBestSetsOfUsersExercises(user);
         model.addAttribute("exerciseBestSetsMap", exerciseBestSetsMap);
 
         List<ExerciseDto> exercisesSorted = new ArrayList<>();
 
+        // 1 - Weight: Descending
+        // 2 - Weight: Ascending
+        // 3 - Reps: Descending
+        // 4 - Reps: Ascending
         switch (value) {
             case 1: {
                 exercisesSorted = exerciseBestSetsMap.keySet().stream()
