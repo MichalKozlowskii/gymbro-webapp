@@ -60,6 +60,11 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
+    public List<WorkoutPlan> findByExercisesContaining(Exercise exercise) {
+        return workoutPlanRepository.findByExercisesContaining(exercise);
+    }
+
+    @Override
     public WorkoutPlan findWorkoutPlanById(Long id) {
         Optional<WorkoutPlan> workoutPlanOptional = workoutPlanRepository.findById(id);
 

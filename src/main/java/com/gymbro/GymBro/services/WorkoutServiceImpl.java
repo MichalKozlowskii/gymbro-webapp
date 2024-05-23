@@ -2,6 +2,7 @@ package com.gymbro.GymBro.services;
 
 import com.gymbro.GymBro.models.Set;
 import com.gymbro.GymBro.models.Workout;
+import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.repositories.SetRepository;
 import com.gymbro.GymBro.repositories.WorkoutRepository;
 import com.gymbro.GymBro.web.DTO.SetDto;
@@ -76,6 +77,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public void deleteWorkout(Long workoutId) {
         workoutRepository.deleteById(workoutId);
+    }
+
+    @Override
+    public List<Workout> findByWorkoutPlan(WorkoutPlan workoutPlan) {
+        return workoutRepository.findByWorkoutPlan(workoutPlan);
     }
 
     @Override
