@@ -1,10 +1,12 @@
 package com.gymbro.GymBro.controllers;
 
 import com.gymbro.GymBro.models.Exercise;
+import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.services.ExerciseService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
+import com.gymbro.GymBro.services.WorkoutService;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -21,12 +23,14 @@ public class WorkoutPlanController {
     private final WorkoutPlanService workoutPlanService;
     private final ExerciseService exerciseService;
     private final UserService userService;
+    private final WorkoutService workoutService;
 
 
-    public WorkoutPlanController(WorkoutPlanService workoutPlanService, ExerciseService exerciseService, UserService userService) {
+    public WorkoutPlanController(WorkoutPlanService workoutPlanService, ExerciseService exerciseService, UserService userService, WorkoutService workoutService) {
         this.workoutPlanService = workoutPlanService;
         this.exerciseService = exerciseService;
         this.userService = userService;
+        this.workoutService = workoutService;
     }
 
     private boolean validateWorkoutPlan(WorkoutPlanDto workoutPlanDto, BindingResult result) {
@@ -170,9 +174,17 @@ public class WorkoutPlanController {
     public String deleteWorkoutPlan(@PathVariable Long id, @AuthenticationPrincipal User user) {
 
         Long userId = userService.findUserByName(user.getUsername()).getId();
-        Long workoutPlanUserId = workoutPlanService.findWorkoutPlanById(id).getUser().getId();
+
+        WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(id);
+        Long workoutPlanUserId = workoutPlan.getUser().getId();
+
         if (!Objects.equals(userId, workoutPlanUserId)) {
             return "redirect:/workoutplans";
+        }
+
+        List<Workout> workouts = workoutService.findByWorkoutPlan(workoutPlan);
+        if (!workouts.isEmpty()) {
+            return "redirect:/workoutplans?deletefail";
         }
 
         workoutPlanService.deleteWorkoutPlanById(id);
