@@ -7,8 +7,6 @@ import com.gymbro.GymBro.services.SetService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.services.WorkoutService;
-import com.gymbro.GymBro.web.DTO.ExerciseDto;
-import com.gymbro.GymBro.web.DTO.SetDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -62,7 +60,7 @@ public class WorkoutsController {
     @GetMapping("/addworkout")
     public String showAddWorkoutForm(Model model, @AuthenticationPrincipal User user) {
         WorkoutDto workoutDto = new WorkoutDto();
-        List<WorkoutPlanDto> workoutPlansDto = workoutPlanService.findAllWorkoutPlansOfUser(user);
+        List<WorkoutPlanDto> workoutPlansDto = workoutPlanService.findAllWorkoutPlansDtoOfUser(user);
 
         model.addAttribute("workout", workoutDto);
         model.addAttribute("workoutplans", workoutPlansDto);

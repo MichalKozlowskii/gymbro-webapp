@@ -79,7 +79,7 @@ public class WorkoutPlanController {
 
     @GetMapping("workoutplans")
     public String getWorkoutPlans(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("workout_plans", workoutPlanService.findAllWorkoutPlansOfUser(user));
+        model.addAttribute("workout_plans", workoutPlanService.findAllWorkoutPlansDtoOfUser(user));
 
         return "workoutplans";
     }
