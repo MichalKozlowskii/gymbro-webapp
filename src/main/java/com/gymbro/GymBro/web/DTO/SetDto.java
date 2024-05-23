@@ -6,8 +6,8 @@ public class SetDto {
     private Long id;
     private Long workoutId;
     private Long exerciseId;
-    private int reps;
-    private double weight;
+    private int reps = 0;
+    private double weight = 0.0;
     private LocalDateTime dateTime;
 
     public SetDto(Long id, Long workoutId, Long exerciseId, int reps, double weight, LocalDateTime localDateTime) {

@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface SetService {
     List<SetDto> findSetsOfExerciseInWorkout(WorkoutDto workoutDto, Exercise exercise);
+    List<SetDto> findSetsOfExerciseById(Long id);
     List<Set> findByWorkoutId(Long id);
     SetDto mapToSetDto(Set set);
 }
