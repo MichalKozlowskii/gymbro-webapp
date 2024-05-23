@@ -37,6 +37,11 @@
                     You have successfully deleted an exercise.
                 </div>
             </div>
+            <div th:if="${param.deletefail}">
+                <div class="alert alert-danger">
+                    This exercise is present in at least 1 workout plan. Can't be deleted!
+                </div>
+            </div>
 
             <div th:if="${#lists.isEmpty(exercises)}">
                 <h1>No exercises found. Add some!</h1>
