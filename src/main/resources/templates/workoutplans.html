@@ -62,10 +62,10 @@
                     <ul>
                         <li th:each="index : ${#numbers.sequence(0, workoutplan.getSets().size() - 1)}">
                             <div class="exercise-info">
-                                <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}">
+                                <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal', data-bs-target='#descriptionModal-' + ${workoutplan.getExercises().get(index).getId()}">
                                     i
                                 </button>
-                                <span th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">
+                                <span th:text="${workoutplan.getExercises().get(index).getName()}">
                                     exercise name
                                 </span>
                                 <span th:text="${workoutplan.getSets().get(index)}">sets number</span>
@@ -74,15 +74,15 @@
                             </div>
 
                             <!-- Description modal -->
-                            <div class="modal fade" th:id="'descriptionModal-' + ${workoutplan.getExercisesIds().get(index)}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div th:with="exercise = ${workoutplan.getExercises().get(index)}" class="modal fade" th:id="'descriptionModal-' + ${exercise.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel" th:text="${@exerciseServiceImpl.getExerciseNameById(workoutplan.exercisesIds.get(index))}">Title</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel" th:text="${exercise.getName()}">Title</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h2 th:text="${@exerciseServiceImpl.getExerciseDescriptionById(workoutplan.getExercisesIds().get(index))}">
+                                            <h2 th:text="${exercise.getDescription()}">
                                                 Description
                                             </h2>
                                         </div>
