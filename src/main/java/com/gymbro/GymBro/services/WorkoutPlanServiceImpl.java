@@ -90,8 +90,8 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
         workoutPlanDto.setId(workoutPlan.getId());
         workoutPlanDto.setName(workoutPlan.getName());
-        workoutPlanDto.setExercisesIds(workoutPlan.getExercises().stream()
-                .map(Exercise::getId)
+        workoutPlanDto.setExercises(workoutPlan.getExercises().stream()
+                .map(exerciseService::mapToExerciseDto)
                 .toList());
         workoutPlanDto.setSets(workoutPlan.getSets());
         workoutPlanDto.setReps(workoutPlan.getReps());
