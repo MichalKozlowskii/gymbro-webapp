@@ -73,7 +73,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const val = urlParams.get("sortOptions");
+        const val = urlParams.get("sortOptions") || 1;
 
         document.getElementById("sortOptions").selectedIndex = val;
         document.getElementById("sortOptions").value = val;

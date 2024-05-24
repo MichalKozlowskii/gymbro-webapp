@@ -13,6 +13,7 @@ public interface WorkoutPlanService {
     void deleteWorkoutPlanById(Long id);
     List<WorkoutPlan> findByExercisesContaining(Exercise exercise);
     WorkoutPlan findWorkoutPlanById(Long id);
-    List<WorkoutPlanDto> findAllWorkoutPlansOfUser(User user);
+    List<WorkoutPlan> findAllWorkoutPlansOfUser(User user);
+    List<WorkoutPlanDto> findAllWorkoutPlansDtoOfUser(User user);
     WorkoutPlanDto mapToWorkoutPlanDto(WorkoutPlan workoutPlan);
 }

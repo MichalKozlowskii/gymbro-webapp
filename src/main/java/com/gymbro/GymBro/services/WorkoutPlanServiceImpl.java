@@ -72,9 +72,13 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
-    public List<WorkoutPlanDto> findAllWorkoutPlansOfUser(User user) {
-        List<WorkoutPlan> workoutPlans = workoutPlanRepository.findByUser(
-                userService.findUserByName(user.getUsername()));
+    public List<WorkoutPlan> findAllWorkoutPlansOfUser(User user) {
+        return workoutPlanRepository.findByUser(userService.findUserByName(user.getUsername()));
+    }
+
+    @Override
+    public List<WorkoutPlanDto> findAllWorkoutPlansDtoOfUser(User user) {
+        List<WorkoutPlan> workoutPlans = findAllWorkoutPlansOfUser(user);
 
         return workoutPlans.stream()
                 .map(this::mapToWorkoutPlanDto)
