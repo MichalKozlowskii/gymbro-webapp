@@ -20,24 +20,23 @@
                     th:method="PUT"
                     role="form"
                     th:action="@{/workoutplans/edit/{id}(id = ${workoutPlan.id})}"
-                    th:object="${workoutPlan}"
                     class="form-horizontal"
                     id="exerciseForm"
             >
                 <div class="form-group mb-3">
-                    <label class="control-label">Name</label>
+                    <label class="control-label" for="name">Name</label>
                     <input
                             type="text"
                             id="name"
                             name="name"
-                            th:field="*{name}"
                             class="form-control"
                             placeholder="Enter name"
+                            th:value="${workoutPlan.getName()}"
                     />
-                    <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+                    <p class="text-danger" th:text="${errorName}" th:if="${errorName}"></p>
                 </div>
 
-                <div id="exercises" th:attr="data-exercises=${exercisesDto}, data-workoutplan=${workoutPlan}, data-selected-exercises-names=${selectedExercisesNames}">
+                <div id="exercises" th:attr="data-exercises=${exercisesDto}, data-workoutplan=${workoutPlan}">
                 </div>
 
                 <div class="form-group mb-3">
@@ -55,7 +54,6 @@
 <<script th:inline="javascript">
     let exercisesData = /*[[${exercisesDto}]]*/ null;
     let workoutPlanData = /*[[${workoutPlan}]]*/ null;
-    let selectedExercisesNames = /*[[${selectedExercisesNames}]]*/ null;
 
     let exerciseIndex = 0;
 
@@ -67,7 +65,7 @@
 
         let exerciseSelect = document.createElement("select");
         exerciseSelect.setAttribute('class', 'form-control');
-        exerciseSelect.setAttribute('name', 'exercisesIds[' + exerciseIndex + ']');
+        exerciseSelect.setAttribute('name', 'exercisesIds' + exerciseIndex);
 
         let selected = document.createElement("option");
         selected.setAttribute('value', selectedExercise.id);
@@ -87,14 +85,14 @@
         setsInput.setAttribute('type', 'number');
         setsInput.setAttribute('class', 'form-control');
         setsInput.setAttribute('placeholder', 'Enter sets');
-        setsInput.setAttribute('name', 'sets[' + exerciseIndex + ']');
+        setsInput.setAttribute('name', 'sets' + exerciseIndex);
         setsInput.setAttribute('value', selectedSets);
 
         let repsInput = document.createElement("input");
         repsInput.setAttribute('type', 'number');
         repsInput.setAttribute('class', 'form-control');
         repsInput.setAttribute('placeholder', 'Enter reps');
-        repsInput.setAttribute('name', 'reps[' + exerciseIndex + ']');
+        repsInput.setAttribute('name', 'reps' + exerciseIndex);
         repsInput.setAttribute('value', selectedReps);
 
         let deleteButton = document.createElement("button");
@@ -117,10 +115,10 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         let counter = 0;
-        selectedExercisesNames.forEach(function(name) {
+        workoutPlanData.exercises.forEach(function(exerciseData) {
             let exercise = {
-                id: workoutPlanData.exercisesIds[counter],
-                name: name
+                id: exerciseData.id,
+                name: exerciseData.name
             };
 
             loadExercise(exercise, workoutPlanData.sets[counter], workoutPlanData.reps[counter]);
@@ -136,7 +134,7 @@
 
         let exerciseSelect = document.createElement("select");
         exerciseSelect.setAttribute('class', 'form-control');
-        exerciseSelect.setAttribute('name', 'exercisesIds[' + exerciseIndex + ']');
+        exerciseSelect.setAttribute('name', 'exercisesIds' + exerciseIndex);
 
         let defaultOption = document.createElement("option");
         defaultOption.setAttribute('value', '');
@@ -154,13 +152,13 @@
         setsInput.setAttribute('type', 'number');
         setsInput.setAttribute('class', 'form-control');
         setsInput.setAttribute('placeholder', 'Enter sets');
-        setsInput.setAttribute('name', 'sets[' + exerciseIndex + ']');
+        setsInput.setAttribute('name', 'sets' + exerciseIndex);
 
         let repsInput = document.createElement("input");
         repsInput.setAttribute('type', 'number');
         repsInput.setAttribute('class', 'form-control');
         repsInput.setAttribute('placeholder', 'Enter reps');
-        repsInput.setAttribute('name', 'reps[' + exerciseIndex + ']');
+        repsInput.setAttribute('name', 'reps' + exerciseIndex);
 
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute('type', 'button');
