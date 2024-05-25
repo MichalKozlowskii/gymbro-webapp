@@ -4,6 +4,7 @@ import com.gymbro.GymBro.models.Exercise;
 import com.gymbro.GymBro.models.Set;
 import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.repositories.SetRepository;
+import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import com.gymbro.GymBro.web.DTO.SetDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,11 @@ public class SetServiceImpl implements SetService {
     }
 
     @Override
-    public List<SetDto> findSetsOfExerciseInWorkout(WorkoutDto workoutDto, Exercise exercise) {
+    public List<SetDto> findSetsOfExerciseInWorkout(WorkoutDto workoutDto, ExerciseDto exerciseDto) {
         List<SetDto> exerciseSets = new ArrayList<>();
 
         for (SetDto set : workoutDto.getSets()) {
-            if (Objects.equals(set.getExerciseDto().getId(), exercise.getId())) {
+            if (Objects.equals(set.getExerciseDto().getId(), exerciseDto.getId())) {
                 exerciseSets.add(set);
             }
         }

@@ -39,19 +39,7 @@ public class WorkoutsController {
     public String getWorkouts(Model model, @AuthenticationPrincipal User user) {
         List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user);
 
-        Map<WorkoutDto, WorkoutPlan> workoutDtoWorkoutPlanMap = new HashMap<>();
-        Map<WorkoutDto, List<Set>> workoutDtoSetMap = new HashMap<>();
-
-        for (WorkoutDto workoutDto : workouts) {
-            WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId());
-
-            workoutDtoWorkoutPlanMap.put(workoutDto, workoutPlan);
-            workoutDtoSetMap.put(workoutDto, setService.findByWorkoutId(workoutDto.getId()));
-        }
-
         model.addAttribute("workouts", workouts);
-        model.addAttribute("workoutDtoWorkoutPlanMap", workoutDtoWorkoutPlanMap);
-        model.addAttribute("workoutDtoSetMap", workoutDtoSetMap);
         model.addAttribute("setService", setService);
 
         return "workouts";

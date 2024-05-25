@@ -44,7 +44,7 @@
 
         <div th:if="${not #lists.isEmpty(workouts)}">
             <div th:each="workout : ${workouts}" class="workout-plan-bar">
-                <h3 th:text="${@workoutPlanServiceImpl.findWorkoutPlanById(workout.getWorkoutPlanId()).getName()}">
+                <h3 th:text="${workout.getWorkoutPlanDto().getName()}">
                     Workout plan name
                 </h3>
                 <h3 th:text="${workout.getDateTime()}">date</h3>
@@ -55,40 +55,40 @@
                     </form>
                 </div>
 
-                <div class="list" th:with="workoutPlan=${workoutDtoWorkoutPlanMap.get(workout)}">
+                <div class="list" th:with="workoutPlan=${workout.getWorkoutPlanDto()}">
                     <ul>
                         <li th:each="index : ${#numbers.sequence(0, workoutPlan.getSets().size() - 1)}">
-                            <div class="exercise-info">
-                                <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal',
-                                 data-bs-target='#descriptionModal-' + ${workoutPlan.getExercises().get(index).getId()}">
-                                    i
-                                </button>
-                                <a class="button-like" th:href="@{/workouts/{workoutId}/addset/{exerciseId}(workoutId=${workout.id}, exerciseId=${workoutDtoWorkoutPlanMap.get(workout).getExercises().get(index).id})}">
-                                    Add Set
-                                </a>
-                                <span th:text="${workoutPlan.getExercises().get(index).getName()}">
-                                    exercise name
-                                </span>
-                                <span th:text="${workoutPlan.getSets().get(index)}">sets number</span>
-                                <span>x</span>
-                                <span th:text="${workoutPlan.getReps().get(index)}">reps number</span>
-                            </div>
-
-
-                            <div class="exercise-info" th:each="set : ${setService.findSetsOfExerciseInWorkout(workout, workoutDtoWorkoutPlanMap.get(workout).getExercises().get(index))}">
-                                <form action="#" th:action="@{/workouts/{workoutId}/deleteset/{setId}(workoutId=${workout.id}, setId=${set.id})}" th:method="delete">
-                                    <button class="btn btn-danger btn-small rounded">
-                                        x
+                            <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+                                <div class="exercise-info">
+                                    <button class="btn btn-primary btn-small rounded" type="button" th:attr="data-bs-toggle='modal',
+                                     data-bs-target='#descriptionModal-' + ${workoutPlan.getExercises().get(index).getId()}">
+                                        i
                                     </button>
-                                </form>
-                                <span th:text="${set.getReps}">Reps</span>
-                                <span>x</span>
-                                <span th:text="${set.getWeight}">Weight</span>
-                                <span>kg</span>
-                            </div>
+                                    <a class="button-like" th:href="@{/workouts/{workoutId}/addset/{exerciseId}(workoutId=${workout.id}, exerciseId=${exercise.id})}">
+                                        Add Set
+                                    </a>
+                                    <span th:text="${exercise.getName()}">
+                                        exercise name
+                                    </span>
+                                    <span th:text="${workoutPlan.getSets().get(index)}">sets number</span>
+                                    <span>x</span>
+                                    <span th:text="${workoutPlan.getReps().get(index)}">reps number</span>
+                                </div>
+
+
+                                <div class="exercise-info" th:each="set : ${setService.findSetsOfExerciseInWorkout(workout, exercise)}">
+                                    <form action="#" th:action="@{/workouts/{workoutId}/deleteset/{setId}(workoutId=${workout.id}, setId=${set.id})}" th:method="delete">
+                                        <button class="btn btn-danger btn-small rounded">
+                                            x
+                                        </button>
+                                    </form>
+                                    <span th:text="${set.getReps}">Reps</span>
+                                    <span>x</span>
+                                    <span th:text="${set.getWeight}">Weight</span>
+                                    <span>kg</span>
+                                </div>
 
                             <!-- Description modal -->
-                            <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
                                 <div class="modal fade" th:id="'descriptionModal-' + ${exercise.getId()}"
                                      tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
