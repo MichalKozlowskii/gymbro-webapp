@@ -15,9 +15,11 @@ import java.util.Objects;
 @Service
 public class SetServiceImpl implements SetService {
     private final SetRepository setRepository;
+    private final ExerciseService exerciseService;
 
-    public SetServiceImpl(SetRepository setRepository) {
+    public SetServiceImpl(SetRepository setRepository, ExerciseService exerciseService) {
         this.setRepository = setRepository;
+        this.exerciseService = exerciseService;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class SetServiceImpl implements SetService {
         List<SetDto> exerciseSets = new ArrayList<>();
 
         for (SetDto set : workoutDto.getSets()) {
-            if (Objects.equals(set.getExerciseId(), exercise.getId())) {
+            if (Objects.equals(set.getExerciseDto().getId(), exercise.getId())) {
                 exerciseSets.add(set);
             }
         }
@@ -50,7 +52,7 @@ public class SetServiceImpl implements SetService {
         SetDto setDto = new SetDto();
         setDto.setId(set.getId());
         setDto.setWorkoutId(set.getWorkout().getId());
-        setDto.setExerciseId(set.getExercise().getId());
+        setDto.setExerciseDto(exerciseService.mapToExerciseDto(set.getExercise()));
         setDto.setReps(set.getReps());
         setDto.setWeight(set.getWeight());
         setDto.setDateTime(set.getDateTime());

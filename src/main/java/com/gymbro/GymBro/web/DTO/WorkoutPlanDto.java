@@ -1,22 +1,19 @@
 package com.gymbro.GymBro.web.DTO;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class WorkoutPlanDto {
     private Long id;
     private String name;
-    private List<Long> exercisesIds = new ArrayList<>();
+    private List<ExerciseDto> exercises = new ArrayList<>();
     private List<Integer> sets = new ArrayList<>();
     private List<Integer> reps = new ArrayList<>();
     private Long userId;
 
-    public WorkoutPlanDto(Long id, String name, List<Long> exercisesIds, List<Integer> sets, List<Integer> reps, Long userId) {
+    public WorkoutPlanDto(Long id, String name, List<ExerciseDto> exercises, List<Integer> sets, List<Integer> reps, Long userId) {
         this.id = id;
         this.name = name;
-        this.exercisesIds = exercisesIds;
+        this.exercises = exercises;
         this.sets = sets;
         this.reps = reps;
         this.userId = userId;
@@ -41,12 +38,12 @@ public class WorkoutPlanDto {
         this.name = name;
     }
 
-    public List<Long> getExercisesIds() {
-        return exercisesIds;
+    public List<ExerciseDto> getExercises() {
+        return exercises;
     }
 
-    public void setExercisesIds(List<Long> exercisesIds) {
-        this.exercisesIds = exercisesIds;
+    public void setExercises(List<ExerciseDto> exercises) {
+        this.exercises = exercises;
     }
 
     public List<Integer> getSets() {
@@ -78,10 +75,36 @@ public class WorkoutPlanDto {
         return "WorkoutPlanDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", exercisesIds=" + exercisesIds +
+                ", exercises=" + exercises +
                 ", sets=" + sets +
                 ", reps=" + reps +
                 ", userId=" + userId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorkoutPlanDto that = (WorkoutPlanDto) o;
+
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(exercises, that.exercises)) return false;
+        if (!Objects.equals(sets, that.sets)) return false;
+        if (!Objects.equals(reps, that.reps)) return false;
+        return Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (exercises != null ? exercises.hashCode() : 0);
+        result = 31 * result + (sets != null ? sets.hashCode() : 0);
+        result = 31 * result + (reps != null ? reps.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        return result;
     }
 }

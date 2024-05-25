@@ -6,5 +6,4 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface ProgressService {
-    List<Workout> findTwoLastWorkoutsOfUser(User user);
 }

@@ -16,4 +16,5 @@ public interface WorkoutPlanService {
     List<WorkoutPlan> findAllWorkoutPlansOfUser(User user);
     List<WorkoutPlanDto> findAllWorkoutPlansDtoOfUser(User user);
     WorkoutPlanDto mapToWorkoutPlanDto(WorkoutPlan workoutPlan);
+    WorkoutPlan mapToWorkoutPlan(WorkoutPlanDto workoutPlanDto);
 }

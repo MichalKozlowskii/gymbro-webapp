@@ -7,6 +7,7 @@ public class WorkoutDto {
     private Long id;
     private Long userId;
     private Long workoutPlanId;
+    private WorkoutPlanDto workoutPlanDto;
     private List<SetDto> sets;
     private LocalDateTime dateTime;
 
@@ -59,5 +60,13 @@ public class WorkoutDto {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public WorkoutPlanDto getWorkoutPlanDto() {
+        return workoutPlanDto;
+    }
+
+    public void setWorkoutPlanDto(WorkoutPlanDto workoutPlanDto) {
+        this.workoutPlanDto = workoutPlanDto;
     }
 }

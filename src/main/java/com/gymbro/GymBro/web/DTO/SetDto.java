@@ -5,18 +5,18 @@ import java.time.LocalDateTime;
 public class SetDto {
     private Long id;
     private Long workoutId;
-    private Long exerciseId;
+    private ExerciseDto exerciseDto;
     private int reps = 0;
     private double weight = 0.0;
     private LocalDateTime dateTime;
 
-    public SetDto(Long id, Long workoutId, Long exerciseId, int reps, double weight, LocalDateTime localDateTime) {
+    public SetDto(Long id, Long workoutId, ExerciseDto exerciseDto, int reps, double weight, LocalDateTime dateTime) {
         this.id = id;
         this.workoutId = workoutId;
-        this.exerciseId = exerciseId;
+        this.exerciseDto = exerciseDto;
         this.reps = reps;
         this.weight = weight;
-        this.dateTime = localDateTime;
+        this.dateTime = dateTime;
     }
 
     public SetDto() {
@@ -36,14 +36,6 @@ public class SetDto {
 
     public void setWorkoutId(Long workoutId) {
         this.workoutId = workoutId;
-    }
-
-    public Long getExerciseId() {
-        return exerciseId;
-    }
-
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
     }
 
     public int getReps() {
@@ -70,15 +62,11 @@ public class SetDto {
         this.dateTime = dateTime;
     }
 
-    @Override
-    public String toString() {
-        return "SetDto{" +
-                "id=" + id +
-                ", workoutId=" + workoutId +
-                ", exerciseId=" + exerciseId +
-                ", reps=" + reps +
-                ", weight=" + weight +
-                ", dateTime=" + dateTime +
-                '}';
+    public ExerciseDto getExerciseDto() {
+        return exerciseDto;
+    }
+
+    public void setExerciseDto(ExerciseDto exerciseDto) {
+        this.exerciseDto = exerciseDto;
     }
 }

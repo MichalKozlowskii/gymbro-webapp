@@ -27,29 +27,15 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
 
     @Override
     public void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto) {
-        WorkoutPlan workoutPlan = new WorkoutPlan();
-        workoutPlan.setName(workoutPlanDto.getName());
-        workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
-                .map(exerciseService::findExerciseById)
-                .toList());
-        workoutPlan.setSets(workoutPlanDto.getSets());
-        workoutPlan.setReps(workoutPlanDto.getReps());
-        workoutPlan.setUser(userService.findUserById(workoutPlanDto.getUserId()));
+        WorkoutPlan workoutPlan = mapToWorkoutPlan(workoutPlanDto);
 
         workoutPlanRepository.save(workoutPlan);
     }
 
     @Override
     public void saveWorkoutPlan(WorkoutPlanDto workoutPlanDto, Long id) {
-        WorkoutPlan workoutPlan = new WorkoutPlan();
+        WorkoutPlan workoutPlan = mapToWorkoutPlan(workoutPlanDto);
         workoutPlan.setId(id);
-        workoutPlan.setName(workoutPlanDto.getName());
-        workoutPlan.setExercises(workoutPlanDto.getExercisesIds().stream()
-                .map(exerciseService::findExerciseById)
-                .toList());
-        workoutPlan.setSets(workoutPlanDto.getSets());
-        workoutPlan.setReps(workoutPlanDto.getReps());
-        workoutPlan.setUser(userService.findUserById(workoutPlanDto.getUserId()));
 
         workoutPlanRepository.save(workoutPlan);
     }
@@ -90,13 +76,27 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
         workoutPlanDto.setId(workoutPlan.getId());
         workoutPlanDto.setName(workoutPlan.getName());
-        workoutPlanDto.setExercisesIds(workoutPlan.getExercises().stream()
-                .map(Exercise::getId)
+        workoutPlanDto.setExercises(workoutPlan.getExercises().stream()
+                .map(exerciseService::mapToExerciseDto)
                 .toList());
         workoutPlanDto.setSets(workoutPlan.getSets());
         workoutPlanDto.setReps(workoutPlan.getReps());
         workoutPlanDto.setUserId(workoutPlan.getUser().getId());
 
         return workoutPlanDto;
+    }
+
+    @Override
+    public WorkoutPlan mapToWorkoutPlan(WorkoutPlanDto workoutPlanDto) {
+        WorkoutPlan workoutPlan = new WorkoutPlan();
+        workoutPlan.setName(workoutPlanDto.getName());
+        workoutPlan.setExercises(workoutPlanDto.getExercises().stream()
+                .map(exerciseService::mapToExercise)
+                .toList());
+        workoutPlan.setSets(workoutPlanDto.getSets());
+        workoutPlan.setReps(workoutPlanDto.getReps());
+        workoutPlan.setUser(userService.findUserById(workoutPlanDto.getUserId()));
+
+        return workoutPlan;
     }
 }

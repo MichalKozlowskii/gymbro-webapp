@@ -30,21 +30,19 @@
                     method="post"
                     role="form"
                     th:action="@{/addworkoutplan/save}"
-                    th:object="${workoutPlan}"
                     class="form-horizontal"
                     id="exerciseForm"
             >
                 <div class="form-group mb-3">
-                    <label class="control-label">Name</label>
+                    <label class="control-label" for="name">Name</label>
                     <input
                             type="text"
                             id="name"
                             name="name"
-                            th:field="*{name}"
                             class="form-control"
                             placeholder="Enter name"
                     />
-                    <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+                    <p class="text-danger" th:text="${errorName}" th:if="${errorName}"></p>
                 </div>
 
                 <div id="exercises" th:attr="data-exercises=${exercisesDto}">
@@ -75,7 +73,7 @@
 
         let exerciseSelect = document.createElement("select");
         exerciseSelect.setAttribute('class', 'form-control');
-        exerciseSelect.setAttribute('name', 'exercisesIds[' + exerciseIndex + ']');
+        exerciseSelect.setAttribute('name', 'exercisesIds' + exerciseIndex);
 
         let defaultOption = document.createElement("option");
         defaultOption.setAttribute('value', '');
@@ -93,13 +91,13 @@
         setsInput.setAttribute('type', 'number');
         setsInput.setAttribute('class', 'form-control');
         setsInput.setAttribute('placeholder', 'Enter sets');
-        setsInput.setAttribute('name', 'sets[' + exerciseIndex + ']');
+        setsInput.setAttribute('name', 'sets' + exerciseIndex);
 
         let repsInput = document.createElement("input");
         repsInput.setAttribute('type', 'number');
         repsInput.setAttribute('class', 'form-control');
         repsInput.setAttribute('placeholder', 'Enter reps');
-        repsInput.setAttribute('name', 'reps[' + exerciseIndex + ']');
+        repsInput.setAttribute('name', 'reps' + exerciseIndex);
 
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute('type', 'button');
