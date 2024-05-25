@@ -24,13 +24,11 @@ public class SetController {
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
     private final UserService userService;
-    private final SetService setService;
 
     public SetController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService, SetService setService) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
         this.userService = userService;
-        this.setService = setService;
     }
 
     @GetMapping("/workouts/{workoutId}/addset/{exerciseId}")
@@ -89,7 +87,7 @@ public class SetController {
             return "redirect:/workouts";
         }
 
-        setDto.setExerciseId(exerciseId);
+        setDto.setExerciseDto(exerciseService.mapToExerciseDto(exerciseService.findExerciseById(exerciseId)));
         setDto.setWorkoutId(workoutId);
         setDto.setDateTime(LocalDateTime.now());
 

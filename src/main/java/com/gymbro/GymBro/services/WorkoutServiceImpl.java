@@ -50,7 +50,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void addSet(Workout workout, SetDto setDto) {
         Set set = new Set();
         set.setWorkout(findWorkoutById(setDto.getWorkoutId()));
-        set.setExercise(exerciseService.findExerciseById(setDto.getExerciseId()));
+        set.setExercise(exerciseService.mapToExercise(setDto.getExerciseDto()));
         set.setReps(setDto.getReps());
         set.setWeight(setDto.getWeight());
         set.setDateTime(setDto.getDateTime());
