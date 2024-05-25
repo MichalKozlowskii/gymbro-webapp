@@ -7,6 +7,7 @@ import com.gymbro.GymBro.repositories.SetRepository;
 import com.gymbro.GymBro.repositories.WorkoutRepository;
 import com.gymbro.GymBro.web.DTO.SetDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
+import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void saveWorkout(WorkoutDto workoutDto) {
         Workout workout = new Workout();
         workout.setUser(userService.findUserById(workoutDto.getUserId()));
-        workout.setWorkoutPlan(workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId()));
+        workout.setWorkoutPlan(workoutPlanService.mapToWorkoutPlan(workoutDto.getWorkoutPlanDto()));
         workout.setDateTime(workoutDto.getDateTime());
 
         workoutRepository.save(workout);
@@ -106,6 +107,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         workoutDto.setId(workout.getId());
         workoutDto.setUserId(workout.getUser().getId());
         workoutDto.setWorkoutPlanId(workout.getWorkoutPlan().getId());
+        workoutDto.setWorkoutPlanDto(workoutPlanService.mapToWorkoutPlanDto(workout.getWorkoutPlan()));
         workoutDto.setSets(workout.getSets().stream()
                 .map(setService::mapToSetDto)
                 .toList());

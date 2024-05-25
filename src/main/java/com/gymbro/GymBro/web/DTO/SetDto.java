@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 public class SetDto {
     private Long id;
     private Long workoutId;
+    private WorkoutDto workoutDto;
     private Long exerciseId;
+    private ExerciseDto exerciseDto;
     private int reps = 0;
     private double weight = 0.0;
     private LocalDateTime dateTime;
@@ -70,15 +72,19 @@ public class SetDto {
         this.dateTime = dateTime;
     }
 
-    @Override
-    public String toString() {
-        return "SetDto{" +
-                "id=" + id +
-                ", workoutId=" + workoutId +
-                ", exerciseId=" + exerciseId +
-                ", reps=" + reps +
-                ", weight=" + weight +
-                ", dateTime=" + dateTime +
-                '}';
+    public WorkoutDto getWorkoutDto() {
+        return workoutDto;
+    }
+
+    public void setWorkoutDto(WorkoutDto workoutDto) {
+        this.workoutDto = workoutDto;
+    }
+
+    public ExerciseDto getExerciseDto() {
+        return exerciseDto;
+    }
+
+    public void setExerciseDto(ExerciseDto exerciseDto) {
+        this.exerciseDto = exerciseDto;
     }
 }
