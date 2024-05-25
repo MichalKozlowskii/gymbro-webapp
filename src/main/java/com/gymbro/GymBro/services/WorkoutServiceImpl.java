@@ -20,15 +20,17 @@ import java.util.Optional;
 public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final UserService userService;
+    private final SetService setService;
     private final WorkoutPlanService workoutPlanService;
     private final ExerciseService exerciseService;
     private final SetRepository setRepository;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserService userService,
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, UserService userService, SetService setService,
                               WorkoutPlanService workoutPlanService, ExerciseService exerciseService,
                               SetRepository setRepository) {
         this.workoutRepository = workoutRepository;
         this.userService = userService;
+        this.setService = setService;
         this.workoutPlanService = workoutPlanService;
         this.exerciseService = exerciseService;
         this.setRepository = setRepository;
@@ -104,24 +106,13 @@ public class WorkoutServiceImpl implements WorkoutService {
         WorkoutDto workoutDto = new WorkoutDto();
         workoutDto.setId(workout.getId());
         workoutDto.setUserId(workout.getUser().getId());
+        workoutDto.setWorkoutPlanId(workout.getWorkoutPlan().getId());
         workoutDto.setWorkoutPlanDto(workoutPlanService.mapToWorkoutPlanDto(workout.getWorkoutPlan()));
         workoutDto.setSets(workout.getSets().stream()
-                .map(this::mapToSetDto)
+                .map(setService::mapToSetDto)
                 .toList());
         workoutDto.setDateTime(workout.getDateTime());
 
         return workoutDto;
-    }
-
-    @Override
-    public SetDto mapToSetDto(Set set) {
-        SetDto setDto = new SetDto();
-        setDto.setWorkoutDto(mapToWorkoutDto(set.getWorkout()));
-        setDto.setExerciseDto(exerciseService.mapToExerciseDto(set.getExercise()));
-        setDto.setReps(set.getReps());
-        setDto.setWeight(set.getWeight());
-        setDto.setDateTime(set.getDateTime());
-
-        return setDto;
     }
 }

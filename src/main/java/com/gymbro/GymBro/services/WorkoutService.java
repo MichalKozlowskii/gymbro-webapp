@@ -18,5 +18,4 @@ public interface WorkoutService {
     Workout findWorkoutById(Long id);
     List<WorkoutDto> findAllWorkoutsOfUser(User user);
     WorkoutDto mapToWorkoutDto(Workout workout);
-    SetDto mapToSetDto(Set set);
 }
