@@ -1,10 +1,8 @@
 package com.gymbro.GymBro.controllers;
 
-import com.gymbro.GymBro.models.Set;
 import com.gymbro.GymBro.models.UserEntity;
 import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.services.ExerciseService;
-import com.gymbro.GymBro.services.SetService;
 import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutService;
 import com.gymbro.GymBro.web.DTO.SetDto;
@@ -24,13 +22,11 @@ public class SetController {
     private final WorkoutService workoutService;
     private final ExerciseService exerciseService;
     private final UserService userService;
-    private final SetService setService;
 
-    public SetController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService, SetService setService) {
+    public SetController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
         this.userService = userService;
-        this.setService = setService;
     }
 
     @GetMapping("/workouts/{workoutId}/addset/{exerciseId}")

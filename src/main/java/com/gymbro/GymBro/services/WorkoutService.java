@@ -14,6 +14,7 @@ public interface WorkoutService {
     void addSet(Workout workout, SetDto setDto);
     void deleteSet(Long workoutId, Long SetId);
     void deleteWorkout(Long workoutId);
+    List<SetDto> findSetsOfExerciseInWorkout(WorkoutDto workoutDto, Long exerciseId);
     List<Workout> findByWorkoutPlan(WorkoutPlan workoutPlan);
     Workout findWorkoutById(Long id);
     List<WorkoutDto> findAllWorkoutsOfUser(User user);
