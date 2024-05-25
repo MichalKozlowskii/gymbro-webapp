@@ -11,7 +11,10 @@ import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
@@ -73,19 +76,6 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public void deleteWorkout(Long workoutId) {
         workoutRepository.deleteById(workoutId);
-    }
-
-    @Override
-    public List<SetDto> findSetsOfExerciseInWorkout(WorkoutDto workoutDto, Long exerciseId) {
-        List<SetDto> setsOfExercise = new ArrayList<>();
-
-        for (SetDto setDto : workoutDto.getSets()) {
-            if (setDto.getExerciseDto().getId().equals(exerciseId)) {
-                setsOfExercise.add(setDto);
-            }
-        }
-
-        return setsOfExercise;
     }
 
     @Override
