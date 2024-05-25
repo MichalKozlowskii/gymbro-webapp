@@ -58,56 +58,7 @@ public class WorkoutPlanController {
                                   Model model,
                                   @AuthenticationPrincipal User user) {
 
-        WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
-
-        String name = params.get("name");
-        if (name == null || name.isEmpty()) {
-            model.addAttribute("errorName", "Name is required!");
-            model.addAttribute("exercisesDto",
-                    exerciseService.findAllExercisesOfUser(user));
-            return "addworkoutplan";
-        }
-
-        List<Long> exerciseIds = new ArrayList<>();
-        List<Integer> sets = new ArrayList<>();
-        List<Integer> reps = new ArrayList<>();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            String element = entry.getKey().substring(0, entry.getKey().length() - 1);
-            String val = entry.getValue();
-
-            if (!val.isEmpty() && val.length() < "exercisesIds".length()) {
-                switch (element) {
-                    case "exercisesIds" -> exerciseIds.add(Long.parseLong(val));
-                    case "sets" -> sets.add(Integer.parseInt(val));
-                    case "reps" -> reps.add(Integer.parseInt(val));
-                }
-            }
-        }
-
-        if (exerciseIds.isEmpty() || sets.isEmpty() || reps.isEmpty() || reps.size() != sets.size() || sets.size() != exerciseIds.size()) {
-            model.addAttribute("errorName", "Exercises form wasn't completed correctly!");
-            model.addAttribute("exercisesDto",
-                    exerciseService.findAllExercisesOfUser(user));
-            return "addworkoutplan";
-        }
-
-        workoutPlanDto.setName(name);
-        workoutPlanDto.setSets(sets);
-        workoutPlanDto.setReps(reps);
-
-        Long userId = userService.findUserByName(user.getUsername()).getId();
-        workoutPlanDto.setUserId(userId);
-
-        List<ExerciseDto> exerciseDtoList = exerciseIds.stream()
-                                .map(exerciseService::findExerciseById)
-                                .map(exerciseService::mapToExerciseDto)
-                                .toList();
-        workoutPlanDto.setExercises(exerciseDtoList);
-
-        workoutPlanService.saveWorkoutPlan(workoutPlanDto);
-
-        return "redirect:/workoutplans?addsuccess";
+        return handleWorkoutPlan(params, model, user, null, "addworkoutplan", "redirect:/workoutplans?addsuccess");
     }
 
     @GetMapping("workoutplans/edit/{id}")
@@ -140,54 +91,7 @@ public class WorkoutPlanController {
             return "redirect:/workoutplans";
         }
 
-        WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
-
-        String name = params.get("name");
-        if (name == null || name.isEmpty()) {
-            model.addAttribute("errorName", "Name is required!");
-            model.addAttribute("exercisesDto",
-                    exerciseService.findAllExercisesOfUser(user));
-            return "addworkoutplan";
-        }
-
-        List<Long> exerciseIds = new ArrayList<>();
-        List<Integer> sets = new ArrayList<>();
-        List<Integer> reps = new ArrayList<>();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            String element = entry.getKey().substring(0, entry.getKey().length() - 1);
-            String val = entry.getValue();
-
-            if (!val.isEmpty() && val.length() < "exercisesIds".length()) {
-                switch (element) {
-                    case "exercisesIds" -> exerciseIds.add(Long.parseLong(val));
-                    case "sets" -> sets.add(Integer.parseInt(val));
-                    case "reps" -> reps.add(Integer.parseInt(val));
-                }
-            }
-        }
-
-        if (exerciseIds.isEmpty() || sets.isEmpty() || reps.isEmpty() || reps.size() != sets.size() || sets.size() != exerciseIds.size()) {
-            model.addAttribute("errorName", "Exercises form wasn't completed correctly!");
-            model.addAttribute("exercisesDto",
-                    exerciseService.findAllExercisesOfUser(user));
-            return "addworkoutplan";
-        }
-
-        workoutPlanDto.setName(name);
-        workoutPlanDto.setSets(sets);
-        workoutPlanDto.setReps(reps);
-        workoutPlanDto.setUserId(userId);
-
-        List<ExerciseDto> exerciseDtoList = exerciseIds.stream()
-                .map(exerciseService::findExerciseById)
-                .map(exerciseService::mapToExerciseDto)
-                .toList();
-        workoutPlanDto.setExercises(exerciseDtoList);
-
-        workoutPlanService.saveWorkoutPlan(workoutPlanDto, id);
-
-        return "redirect:/workoutplans?editsuccess";
+        return handleWorkoutPlan(params, model, user, id, "editworkoutplan", "redirect:/workoutplans?editsuccess");
     }
 
     @DeleteMapping("workoutplans/delete/{id}")
@@ -217,7 +121,7 @@ public class WorkoutPlanController {
 
         String name = params.get("name");
         if (name == null || name.isEmpty()) {
-            return setupErrorModel(model, user, "Name is required!", errorView);
+            return setupErrorModel(model, user, "Name is required!", errorView, workoutPlanId);
         }
 
         List<Long> exerciseIds = new ArrayList<>();
@@ -227,7 +131,7 @@ public class WorkoutPlanController {
         parseParams(params, exerciseIds, sets, reps);
 
         if (exerciseIds.isEmpty() || sets.isEmpty() || reps.isEmpty() || reps.size() != sets.size() || sets.size() != exerciseIds.size()) {
-            return setupErrorModel(model, user, "Exercises form wasn't completed correctly!", errorView);
+            return setupErrorModel(model, user, "Exercises form wasn't completed correctly!", errorView, workoutPlanId);
         }
 
         workoutPlanDto.setSets(sets);
@@ -267,9 +171,12 @@ public class WorkoutPlanController {
         }
     }
 
-    private String setupErrorModel(Model model, User user, String errorMessage, String viewName) {
+    private String setupErrorModel(Model model, User user, String errorMessage, String viewName, Long workoutPlanId) {
         model.addAttribute("errorName", errorMessage);
         model.addAttribute("exercisesDto", exerciseService.findAllExercisesOfUser(user));
+        model.addAttribute("workoutPlan",
+                workoutPlanService.mapToWorkoutPlanDto(workoutPlanService.findWorkoutPlanById(workoutPlanId))
+        );
         return viewName;
     }
 }
