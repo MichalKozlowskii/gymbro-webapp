@@ -27,9 +27,10 @@
         </div>
 
         <div th:if="${not #lists.isEmpty(workoutPlan2LastWorkoutsMap.keySet())}">
-
+    
             <div th:each="workoutPlan : ${workoutPlan2LastWorkoutsMap.keySet()}" class="workout-plan-bar">
                 <h3 th:text="${workoutPlan.getName()}">workout plan name</h3>
+                <a class="btn btn-primary" th:href="@{'/progress/{id}'(id=${workoutPlan.id})}">See more</a>
 
                 <div class="side-container">
                     <div class="left-side" th:with="workout = ${workoutPlan2LastWorkoutsMap.get(workoutPlan).key()}">
