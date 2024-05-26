@@ -40,7 +40,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void saveWorkout(WorkoutDto workoutDto) {
         Workout workout = new Workout();
         workout.setUser(userService.findUserById(workoutDto.getUserId()));
-        workout.setWorkoutPlan(workoutPlanService.mapToWorkoutPlan(workoutDto.getWorkoutPlanDto()));
+        workout.setWorkoutPlan(workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId()));
         workout.setDateTime(workoutDto.getDateTime());
 
         workoutRepository.save(workout);
