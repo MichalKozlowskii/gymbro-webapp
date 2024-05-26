@@ -314,3 +314,17 @@ footer ul li a:hover {
 .list li {
     margin-bottom: 5px;
 }
+
+.side-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Adjust the width as needed */
+}
+
+.left-side, .right-side {
+    width: 48%; /* Adjust width to fit both sides within the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}

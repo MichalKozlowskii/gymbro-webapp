@@ -3,15 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Gym Bro- progress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <div th:insert="/navbar::navbar"></div>
 
+<div th:insert="/navbar::navbar"></div>
+
+
+<div class="caption">
+    <h2>Your progress</h2>
+    <h3>Track progress of your workouts!</h3>
+</div>
+
+<div class="subsiteContainer">
     <div class="subsiteContent">
-        <h1>W.I.P.</h1>
-    </div>
 
-    <div th:insert="/footer::footer"></div>
+        <div th:if="${#lists.isEmpty(workoutPlan2LastWorkoutsMap.keySet())}">
+            No progress to show!
+        </div>
+
+        <div th:if="${not #lists.isEmpty(workoutPlan2LastWorkoutsMap.keySet())}">
+
+            <div th:each="workoutPlan : ${workoutPlan2LastWorkoutsMap.keySet()}" class="workout-plan-bar">
+                <h3 th:text="${workoutPlan.getName()}">workout plan name</h3>
+
+                <div class="side-container">
+                    <div class="left-side" th:with="workout = ${workoutPlan2LastWorkoutsMap.get(workoutPlan).key()}">
+                        <ul>
+                            <h3>Last workout</h3>
+                            <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
+                                <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+
+                                    <div class="exercise-info">
+                                        <span th:text="${exercise.getName()}">exercise name</span>
+                                    </div>
+
+                                    <div class="exercise-info" th:each="set : ${@setServiceImpl.findSetsOfExerciseInWorkout(workout, exercise)}">
+                                        <span th:text="${set.getReps}">Reps</span>
+                                        <span>x</span>
+                                        <span th:text="${set.getWeight}">Weight</span>
+                                        <span>kg</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="right-side" th:with="workout = ${workoutPlan2LastWorkoutsMap.get(workoutPlan).value()}">
+                        <ul>
+                            <h3>Workout Before</h3>
+                            <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
+                                <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+
+                                    <div class="exercise-info">
+                                        <span th:text="${exercise.getName()}">exercise name</span>
+                                    </div>
+
+                                    <div class="exercise-info" th:each="set : ${@setServiceImpl.findSetsOfExerciseInWorkout(workout, exercise)}">
+                                        <span th:text="${set.getReps}">Reps</span>
+                                        <span>x</span>
+                                        <span th:text="${set.getWeight}">Weight</span>
+                                        <span>kg</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:insert="/footer::footer"></div>
+
 </body>
 </html>
