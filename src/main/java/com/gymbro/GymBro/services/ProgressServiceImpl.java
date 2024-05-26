@@ -3,6 +3,8 @@ package com.gymbro.GymBro.services;
 import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.records.Pair;
+import com.gymbro.GymBro.web.DTO.WorkoutDto;
+import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -24,11 +26,12 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
-    public Pair<Workout, Workout> findTwoLastWorkoutsOfWorkoutPlan(WorkoutPlan workoutPlan) {
-        List<Workout> workouts = workoutService.findByWorkoutPlan(workoutPlan).stream()
+    public Pair<WorkoutDto, WorkoutDto> findTwoLastWorkoutsOfWorkoutPlanById(Long id) {
+        List<WorkoutDto> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(id)).stream()
                 .sorted(Comparator.comparing(Workout::getDateTime).reversed())
+                .map(workoutService::mapToWorkoutDto)
                 .toList();
 
-        return new Pair<Workout, Workout>(workouts.get(0), workouts.get(1));
+        return new Pair<WorkoutDto, WorkoutDto>(workouts.get(0), workouts.get(1));
     }
 }
