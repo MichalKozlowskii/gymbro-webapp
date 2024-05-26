@@ -6,6 +6,7 @@ import com.gymbro.GymBro.records.Pair;
 import com.gymbro.GymBro.services.ProgressService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.services.WorkoutService;
+import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,16 +35,22 @@ public class ProgressController {
     public String getProgress(Model model, @AuthenticationPrincipal User user) {
         List<WorkoutPlanDto> workoutPlans = workoutPlanService.findAllWorkoutPlansDtoOfUser(user);
         Map<WorkoutPlanDto, Pair<WorkoutDto, WorkoutDto>> workoutPlan2LastWorkouts = new HashMap<>();
+        Map<WorkoutPlanDto, Map<ExerciseDto, String>> comparison = new HashMap<>();
 
         for (WorkoutPlanDto workoutPlan : workoutPlans) {
             Pair<WorkoutDto, WorkoutDto> lastWorkoutsPair = progressService.findTwoLastWorkoutsOfWorkoutPlanById(workoutPlan.getId());
 
             if (lastWorkoutsPair.key() != null || lastWorkoutsPair.value() != null) {
                 workoutPlan2LastWorkouts.put(workoutPlan, lastWorkoutsPair);
+
+                comparison.put(workoutPlan, progressService.getTwoWorkoutsComparison(lastWorkoutsPair.key(),
+                        lastWorkoutsPair.value()));
             }
         }
 
         model.addAttribute("workoutPlan2LastWorkoutsMap", workoutPlan2LastWorkouts);
+        model.addAttribute("comparison", comparison);
+
 
         return "progress";
     }

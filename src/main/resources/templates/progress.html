@@ -36,11 +36,14 @@
                         <ul>
                             <h3>Last workout</h3>
                             <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
-                                <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+
+                                <div th:with="exercise = ${workoutPlan.getExercises().get(index)},
+                                comparisonString = ${comparison.get(workoutPlan).get(exercise)}">
 
                                     <div class="exercise-info">
                                         <span th:text="${exercise.getName()}">exercise name</span>
                                     </div>
+                                    <span th:text="'(' + ${comparisonString} + ')'" style="color: black">comparison</span>
 
                                     <div class="exercise-info" th:each="set : ${@setServiceImpl.findSetsOfExerciseInWorkout(workout, exercise)}">
                                         <span th:text="${set.getReps}">Reps</span>
@@ -57,6 +60,7 @@
                         <ul>
                             <h3>Workout Before</h3>
                             <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
+
                                 <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
 
                                     <div class="exercise-info">
@@ -80,8 +84,5 @@
 
     </div>
 </div>
-
-<div th:insert="/footer::footer"></div>
-
 </body>
 </html>
