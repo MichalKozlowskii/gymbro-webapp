@@ -4,6 +4,7 @@ import com.gymbro.GymBro.models.Workout;
 import com.gymbro.GymBro.models.WorkoutPlan;
 import com.gymbro.GymBro.records.Pair;
 import com.gymbro.GymBro.services.ProgressService;
+import com.gymbro.GymBro.services.UserService;
 import com.gymbro.GymBro.services.WorkoutPlanService;
 import com.gymbro.GymBro.services.WorkoutService;
 import com.gymbro.GymBro.web.DTO.ExerciseDto;
@@ -14,21 +15,27 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class ProgressController {
-    private final WorkoutService workoutService;
+    private final UserService userService;
     private final WorkoutPlanService workoutPlanService;
     private final ProgressService progressService;
+    private final WorkoutService workoutService;
 
-    public ProgressController(WorkoutService workoutService,WorkoutPlanService workoutPlanService, ProgressService progressService) {
-        this.workoutService = workoutService;
-        this.progressService = progressService;
+    public ProgressController(UserService userService, WorkoutPlanService workoutPlanService,
+                              ProgressService progressService, WorkoutService workoutService) {
+        this.userService = userService;
         this.workoutPlanService = workoutPlanService;
+        this.progressService = progressService;
+        this.workoutService = workoutService;
     }
 
     @GetMapping("/progress")
@@ -53,5 +60,39 @@ public class ProgressController {
 
 
         return "progress";
+    }
+
+    @GetMapping("/progress/{workoutPlanId}")
+    public String getProgressOfWorkoutPlan(@PathVariable("workoutPlanId") Long workoutPlanId,
+                                           @RequestParam("compareworkout") Long workoutId,
+                                           Model model,
+                                           @AuthenticationPrincipal User user) {
+
+        WorkoutPlanDto workoutPlanDto = workoutPlanService.mapToWorkoutPlanDto(
+                workoutPlanService.findWorkoutPlanById(workoutPlanId)
+        );
+
+        Long userId = userService.findUserByName(user.getUsername()).getId();
+        if (!userId.equals(workoutPlanDto.getUserId())) {
+            return "redirect:/progress";
+        }
+
+        List<WorkoutDto> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(workoutPlanId)).stream()
+                .sorted(Comparator.comparing(Workout::getDateTime).reversed())
+                .map(workoutService::mapToWorkoutDto)
+                .toList();
+
+        WorkoutDto lastWorkout = workouts.get(0);
+        WorkoutDto workout2 = workoutService.mapToWorkoutDto(workoutService.findWorkoutById(workoutId));
+
+        Map<ExerciseDto, String> comparison = progressService.getTwoWorkoutsComparison(lastWorkout, workout2);
+
+        model.addAttribute("workouts", workouts.subList(1, workouts.size()));
+        model.addAttribute("workoutPlan", workoutPlanDto);
+        model.addAttribute("lastWorkout", lastWorkout);
+        model.addAttribute("workout2", workout2);
+        model.addAttribute("comparison", comparison);
+
+        return "workoutplanprogress";
     }
 }

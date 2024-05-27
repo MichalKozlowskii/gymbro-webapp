@@ -7,6 +7,7 @@ import com.gymbro.GymBro.web.DTO.ExerciseDto;
 import com.gymbro.GymBro.web.DTO.SetDto;
 import com.gymbro.GymBro.web.DTO.WorkoutDto;
 import com.gymbro.GymBro.web.DTO.WorkoutPlanDto;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -32,11 +33,14 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public Pair<WorkoutDto, WorkoutDto> findTwoLastWorkoutsOfWorkoutPlanById(Long id) {
-        List<WorkoutDto> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(id)).stream()
-                .map(workoutService::mapToWorkoutDto)
+        List<Workout> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(id)).stream()
+                .sorted(Comparator.comparing(Workout::getDateTime).reversed())
                 .toList();
 
-        return new Pair<WorkoutDto, WorkoutDto>(workouts.get(0), workouts.get(1));
+        WorkoutDto workout1 = workoutService.mapToWorkoutDto(workouts.get(0));
+        WorkoutDto workout2 = workoutService.mapToWorkoutDto(workouts.get(1));
+
+        return new Pair<WorkoutDto, WorkoutDto>(workout1, workout2);
     }
 
     @Override
@@ -81,5 +85,14 @@ public class ProgressServiceImpl implements ProgressService {
         }
 
         return result;
+    }
+
+    @Override
+    public WorkoutDto getLastWorkoutOfWorkoutPlanById(Long id) {
+        List<Workout> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(id)).stream()
+                .sorted(Comparator.comparing(Workout::getDateTime).reversed())
+                .toList();
+
+        return workoutService.mapToWorkoutDto(workouts.get(0));
     }
 }

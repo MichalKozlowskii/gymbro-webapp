@@ -37,7 +37,9 @@ public class WorkoutsController {
 
     @GetMapping("/workouts")
     public String getWorkouts(Model model, @AuthenticationPrincipal User user) {
-        List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user);
+        List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user).stream()
+                .sorted(Comparator.comparing(WorkoutDto::getDateTime).reversed())
+                .toList();
 
         model.addAttribute("workouts", workouts);
         model.addAttribute("setService", setService);
