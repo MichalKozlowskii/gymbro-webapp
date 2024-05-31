@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 public class ProgressController {
@@ -47,7 +45,7 @@ public class ProgressController {
         for (WorkoutPlanDto workoutPlan : workoutPlans) {
             Pair<WorkoutDto, WorkoutDto> lastWorkoutsPair = progressService.findTwoLastWorkoutsOfWorkoutPlanById(workoutPlan.getId());
 
-            if (lastWorkoutsPair.key() != null || lastWorkoutsPair.value() != null) {
+            if (lastWorkoutsPair != null) {
                 workoutPlan2LastWorkouts.put(workoutPlan, lastWorkoutsPair);
 
                 comparison.put(workoutPlan, progressService.getTwoWorkoutsComparison(lastWorkoutsPair.key(),
@@ -87,11 +85,14 @@ public class ProgressController {
 
         Map<ExerciseDto, String> comparison = progressService.getTwoWorkoutsComparison(lastWorkout, workout2);
 
+        List<Pair<LocalDateTime, Double>> plotData = progressService.getWorkoutsScore(workouts);;
+
         model.addAttribute("workouts", workouts.subList(1, workouts.size()));
         model.addAttribute("workoutPlan", workoutPlanDto);
         model.addAttribute("lastWorkout", lastWorkout);
         model.addAttribute("workout2", workout2);
         model.addAttribute("comparison", comparison);
+        model.addAttribute("plotData", plotData);
 
         return "workoutplanprogress";
     }

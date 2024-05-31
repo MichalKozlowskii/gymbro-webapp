@@ -11,10 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class ProgressServiceImpl implements ProgressService {
@@ -36,6 +34,10 @@ public class ProgressServiceImpl implements ProgressService {
         List<Workout> workouts = workoutService.findByWorkoutPlan(workoutPlanService.findWorkoutPlanById(id)).stream()
                 .sorted(Comparator.comparing(Workout::getDateTime).reversed())
                 .toList();
+
+        if (workouts.size() < 2) {
+            return null;
+        }
 
         WorkoutDto workout1 = workoutService.mapToWorkoutDto(workouts.get(0));
         WorkoutDto workout2 = workoutService.mapToWorkoutDto(workouts.get(1));
@@ -94,5 +96,25 @@ public class ProgressServiceImpl implements ProgressService {
                 .toList();
 
         return workoutService.mapToWorkoutDto(workouts.get(0));
+    }
+
+    @Override
+    public List<Pair<LocalDateTime,Double>> getWorkoutsScore(List<WorkoutDto> workouts) {
+        workouts = workouts.stream().sorted(Comparator.comparing(WorkoutDto::getDateTime)).toList();
+        List<Pair<LocalDateTime, Double>> result = new ArrayList<>();
+
+        for (WorkoutDto workoutDto : workouts) {
+            double score = 0;
+            int setsAmount = 0;
+
+            for (SetDto setDto : workoutDto.getSets()) {
+                score += setDto.getWeight() * setDto.getReps();
+                setsAmount++;
+            }
+
+            result.add(new Pair<>(workoutDto.getDateTime(), score / 10));
+        }
+
+        return result;
     }
 }

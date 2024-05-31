@@ -7,6 +7,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/css/styles.css">
 
 </head>
@@ -89,11 +90,47 @@
             </div>
 
             <div class="right-side">
-
+                <div id="progressChart" style="width:95%; height: 45%"></div>
             </div>
 
         </div>
     </div>
 </div>
+
+<script th:inline="javascript" th:with="plotData= ${plotData}">
+    let plotData = /*[[${plotData}]]*/ [];
+
+    let xValues = [];
+    let yValues = [];
+
+    plotData.forEach(function(record) {
+        xValues.push(record.key);
+        yValues.push(record.value)
+    })
+
+    var trace1 = {
+        x: xValues,
+        y: yValues,
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: 'Line with markers'
+    };
+
+    var data = [trace1];
+
+    // Layout for the plot
+    var layout = {
+        title: 'Progress chart',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Workout score'
+        }
+    };
+
+    // Render the plot
+    Plotly.newPlot('progressChart', data, layout);
+</script>
 </body>
 </html>
