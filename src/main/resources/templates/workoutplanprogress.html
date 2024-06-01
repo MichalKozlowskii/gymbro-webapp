@@ -90,25 +90,32 @@
             </div>
 
             <div class="right-side">
-                <div id="progressChart" style="width:95%; height: 45%"></div>
+                <div id="progressChart" style="width:95%; height: 48%"></div>
+                <div>
+                    <select id="exerciseSelect" style="margin-top: 10px">
+                        <option th:each="exerciseDto : ${exercisesWeightPlotData.keySet()}" th:value="${exerciseDto}" th:text="${exerciseDto.getName()}"></option>
+                    </select>
+                </div>
+                <div id="exerciseProgressChart" style="width:95%; height: 48%"></div>
             </div>
 
         </div>
     </div>
 </div>
 
-<script th:inline="javascript" th:with="plotData= ${plotData}">
-    let plotData = /*[[${plotData}]]*/ [];
+<script th:inline="javascript" th:with="progressPlotData= ${progressPlotData}, exercisesWeightPlotData = ${exercisesWeightPlotData}">
+    let progressPlotData = /*[[${progressPlotData}]]*/ [];
+    let exercisesWeightPlotData = /*[[${exercisesWeightPlotData}]]*/ [];
 
     let xValues = [];
     let yValues = [];
 
-    plotData.forEach(function(record) {
+    progressPlotData.forEach(function(record) {
         xValues.push(record.key);
         yValues.push(record.value)
     })
 
-    var trace1 = {
+    let progressTrace = {
         x: xValues,
         y: yValues,
         mode: 'lines+markers',
@@ -116,10 +123,10 @@
         name: 'Line with markers'
     };
 
-    var data = [trace1];
+    let progressData = [progressTrace];
 
     // Layout for the plot
-    var layout = {
+    let progressLayout = {
         title: 'Progress chart',
         xaxis: {
             title: 'Date'
@@ -128,9 +135,53 @@
             title: 'Workout score'
         }
     };
+    Plotly.newPlot('progressChart', progressData, progressLayout);
 
-    // Render the plot
-    Plotly.newPlot('progressChart', data, layout);
+    // exercises weight progress plot
+    let exercisePlotLayout = {
+        title: 'Exercise avg. weight progress chart',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Average weight [kg]'
+        }
+    };
+    function drawExercisePlot(exerciseDto) {
+        let exerciseData = exercisesWeightPlotData[exerciseDto];
+
+        let xValues = [];
+        let yValues = [];
+
+        exerciseData.forEach(function (data) {
+           xValues.push(data.key);
+           yValues.push(data.value);
+        });
+
+        let progressTrace = {
+            x: xValues,
+            y: yValues,
+            mode: 'lines+markers',
+            type: 'scatter',
+            name: 'Line with markers'
+        };
+
+        let exerciseProgressData = [progressTrace];
+
+        Plotly.newPlot('exerciseProgressChart', exerciseProgressData, exercisePlotLayout);
+    }
+
+
+    let exerciseSelect = document.getElementById("exerciseSelect");
+
+    let selectedExercise = exerciseSelect.value;
+    drawExercisePlot(selectedExercise);
+
+    exerciseSelect.addEventListener("change", function(event) {
+       selectedExercise = event.target.value;
+
+        drawExercisePlot(selectedExercise);
+    });
 </script>
 </body>
 </html>

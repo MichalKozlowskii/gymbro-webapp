@@ -85,14 +85,16 @@ public class ProgressController {
 
         Map<ExerciseDto, String> comparison = progressService.getTwoWorkoutsComparison(lastWorkout, workout2);
 
-        List<Pair<LocalDateTime, Double>> plotData = progressService.getWorkoutsScore(workouts);;
+        List<Pair<LocalDateTime, Double>> progressPlotData = progressService.getWorkoutsScore(workouts);
+        Map<ExerciseDto, List<Pair<LocalDateTime, Double>>> exercisesWeightPlotData = progressService.getExercisesWeightPlotData(workouts);
 
         model.addAttribute("workouts", workouts.subList(1, workouts.size()));
         model.addAttribute("workoutPlan", workoutPlanDto);
         model.addAttribute("lastWorkout", lastWorkout);
         model.addAttribute("workout2", workout2);
         model.addAttribute("comparison", comparison);
-        model.addAttribute("plotData", plotData);
+        model.addAttribute("progressPlotData", progressPlotData);
+        model.addAttribute("exercisesWeightPlotData", exercisesWeightPlotData);
 
         return "workoutplanprogress";
     }

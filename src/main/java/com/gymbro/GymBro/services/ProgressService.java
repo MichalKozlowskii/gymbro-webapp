@@ -13,4 +13,5 @@ public interface ProgressService {
     public Map<ExerciseDto, String> getTwoWorkoutsComparison(WorkoutDto workout, WorkoutDto workoutToCompareTo);
     public WorkoutDto getLastWorkoutOfWorkoutPlanById(Long id);
     public List<Pair<LocalDateTime,Double>> getWorkoutsScore(List<WorkoutDto> workouts);
+    public Map<ExerciseDto, List<Pair<LocalDateTime, Double>>> getExercisesWeightPlotData(List<WorkoutDto> workouts);
 }

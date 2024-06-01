@@ -117,4 +117,36 @@ public class ProgressServiceImpl implements ProgressService {
 
         return result;
     }
+
+    @Override
+    public Map<ExerciseDto, List<Pair<LocalDateTime, Double>>> getExercisesWeightPlotData(List<WorkoutDto> workouts) {
+        workouts = workouts.stream().sorted(Comparator.comparing(WorkoutDto::getDateTime)).toList();
+        Map<ExerciseDto, List<Pair<LocalDateTime, Double>>> result = new HashMap<>();
+
+        for (WorkoutDto workoutDto : workouts) {
+            for (ExerciseDto exerciseDto : workoutDto.getWorkoutPlanDto().getExercises()) {
+                List<SetDto> setsOfExercise = setService.findSetsOfExerciseInWorkout(workoutDto, exerciseDto);
+
+                double combinedWeight = 0;
+                int setCounter = 0;
+                for (SetDto setDto : setsOfExercise) {
+                    combinedWeight += setDto.getWeight();
+                    setCounter++;
+                }
+
+                if (result.get(exerciseDto) == null) {
+                    List<Pair<LocalDateTime, Double>> pairList = new ArrayList<>();
+                    pairList.add(new Pair<>(workoutDto.getDateTime(), combinedWeight / setCounter));
+                    result.put(exerciseDto, pairList);
+                }
+                else {
+                    List<Pair<LocalDateTime, Double>> pairsList = result.get(exerciseDto);
+                    pairsList.add(new Pair<>(workoutDto.getDateTime(), combinedWeight / setCounter));
+                    result.put(exerciseDto, pairsList);
+                }
+            }
+        }
+
+        return result;
+    }
 }
