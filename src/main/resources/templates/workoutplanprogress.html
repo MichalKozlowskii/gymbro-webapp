@@ -59,7 +59,7 @@
                                         role="form"
                                         th:action="@{'/progress/{workoutPlanId}'(workoutPlanId = ${workoutPlan.getId()})}"
                                 >
-                                    <label for="compareworkout">Compare to:</label>
+                                    <h3>Compare to:</h3>
                                     <select id="compareworkout" name="compareworkout">
                                         <option th:each="workout : ${workouts}" th:text="${workout.getDateTime()}" th:value="${workout.getId()}">
                                             workout Date
