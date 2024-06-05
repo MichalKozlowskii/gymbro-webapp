@@ -27,6 +27,11 @@
                 You have successfully added a workout plan.
             </div>
         </div>
+        <div th:if="${param.addfail}">
+            <div class="alert alert-danger">
+                You don't have any exercises! you can't create a workout plan.
+            </div>
+        </div>
         <div th:if="${param.editsuccess}">
             <div class="alert alert-info">
                 You have successfully edited a workout plan.

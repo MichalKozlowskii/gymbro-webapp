@@ -37,21 +37,11 @@ public class WorkoutsController {
 
     @GetMapping("/workouts")
     public String getWorkouts(Model model, @AuthenticationPrincipal User user) {
-        List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user);
-
-        Map<WorkoutDto, WorkoutPlan> workoutDtoWorkoutPlanMap = new HashMap<>();
-        Map<WorkoutDto, List<Set>> workoutDtoSetMap = new HashMap<>();
-
-        for (WorkoutDto workoutDto : workouts) {
-            WorkoutPlan workoutPlan = workoutPlanService.findWorkoutPlanById(workoutDto.getWorkoutPlanId());
-
-            workoutDtoWorkoutPlanMap.put(workoutDto, workoutPlan);
-            workoutDtoSetMap.put(workoutDto, setService.findByWorkoutId(workoutDto.getId()));
-        }
+        List<WorkoutDto> workouts = workoutService.findAllWorkoutsOfUser(user).stream()
+                .sorted(Comparator.comparing(WorkoutDto::getDateTime).reversed())
+                .toList();
 
         model.addAttribute("workouts", workouts);
-        model.addAttribute("workoutDtoWorkoutPlanMap", workoutDtoWorkoutPlanMap);
-        model.addAttribute("workoutDtoSetMap", workoutDtoSetMap);
         model.addAttribute("setService", setService);
 
         return "workouts";
@@ -61,6 +51,10 @@ public class WorkoutsController {
     public String showAddWorkoutForm(Model model, @AuthenticationPrincipal User user) {
         WorkoutDto workoutDto = new WorkoutDto();
         List<WorkoutPlanDto> workoutPlansDto = workoutPlanService.findAllWorkoutPlansDtoOfUser(user);
+
+        if (workoutPlansDto.isEmpty()) {
+            return "redirect:/workouts?addfail";
+        }
 
         model.addAttribute("workout", workoutDto);
         model.addAttribute("workoutplans", workoutPlansDto);

@@ -281,6 +281,30 @@ footer ul li a:hover {
     color: white;
 }
 
+.workout-plan-bar-progress {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.workout-plan-bar-progress h3 {
+    font-size: 24px;
+    color: white;
+}
+
+.workout-plan-bar-progress span {
+    font-size: 20px;
+    color: white;
+}
+
 .btn-small {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem; /* Adjust font size as needed */
@@ -313,4 +337,18 @@ footer ul li a:hover {
 
 .list li {
     margin-bottom: 5px;
+}
+
+.side-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Adjust the width as needed */
+}
+
+.left-side, .right-side {
+    width: 48%; /* Adjust width to fit both sides within the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }

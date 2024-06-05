@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym Bro- workout plans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+<div th:insert="/navbar::navbar"></div>
+
+<div class="caption">
+    <h2>Your progress</h2>
+    <h3 th:text="${workoutPlan.getName()}">workout plan name</h3>
+</div>
+
+<div class="subsiteContainer">
+    <div class="subsiteContent">
+        <div class="side-container">
+
+            <div class="left-side">
+                <div class="workout-plan-bar-progress">
+                    <h3 th:text="${workoutPlan.getName()}">name</h3>
+                    <div class="side-container">
+                        <div class="left-side">
+                            <ul>
+                                <h3>Last workout</h3>
+                                <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
+
+                                    <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+
+                                        <div class="exercise-info">
+                                            <span th:text="${exercise.getName()}">exercise name</span>
+                                        </div>
+                                        <span th:text="'(' + ${comparison.get(exercise)} + ')'" style="color: black">comparison</span>
+
+                                        <div class="exercise-info" th:each="set : ${@setServiceImpl.findSetsOfExerciseInWorkout(lastWorkout, exercise)}">
+                                            <span th:text="${set.getReps}">Reps</span>
+                                            <span>x</span>
+                                            <span th:text="${set.getWeight}">Weight</span>
+                                            <span>kg</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="right-side">
+                            <ul>
+                                <form
+                                        method="get"
+                                        role="form"
+                                        th:action="@{'/progress/{workoutPlanId}'(workoutPlanId = ${workoutPlan.getId()})}"
+                                >
+                                    <h3>Compare to:</h3>
+                                    <select id="compareworkout" name="compareworkout">
+                                        <option th:each="workout : ${workouts}" th:text="${workout.getDateTime()}" th:value="${workout.getId()}">
+                                            workout Date
+                                        </option>
+                                    </select>
+                                    <input type="submit" value="Compare">
+                                </form>
+                                <li th:each="index : ${#numbers.sequence(0, workoutPlan.getExercises().size() - 1)}">
+
+                                    <div th:with="exercise = ${workoutPlan.getExercises().get(index)}">
+
+                                        <div class="exercise-info">
+                                            <span th:text="${exercise.getName()}">exercise name</span>
+                                        </div>
+
+                                        <div class="exercise-info" th:each="set : ${@setServiceImpl.findSetsOfExerciseInWorkout(workout2, exercise)}">
+                                            <span th:text="${set.getReps}">Reps</span>
+                                            <span>x</span>
+                                            <span th:text="${set.getWeight}">Weight</span>
+                                            <span>kg</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-side">
+                <div id="progressChart" style="width:95%; height: 48%"></div>
+                <div>
+                    <select id="exerciseSelect" style="margin-top: 10px">
+                        <option th:each="exerciseDto : ${exercisesWeightPlotData.keySet()}" th:value="${exerciseDto}" th:text="${exerciseDto.getName()}"></option>
+                    </select>
+                </div>
+                <div id="exerciseProgressChart" style="width:95%; height: 48%"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript" th:with="progressPlotData= ${progressPlotData}, exercisesWeightPlotData = ${exercisesWeightPlotData}">
+    let progressPlotData = /*[[${progressPlotData}]]*/ [];
+    let exercisesWeightPlotData = /*[[${exercisesWeightPlotData}]]*/ [];
+
+    let xValues = [];
+    let yValues = [];
+
+    progressPlotData.forEach(function(record) {
+        xValues.push(record.key);
+        yValues.push(record.value)
+    })
+
+    let progressTrace = {
+        x: xValues,
+        y: yValues,
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: 'Line with markers'
+    };
+
+    let progressData = [progressTrace];
+
+    // Layout for the plot
+    let progressLayout = {
+        title: 'Progress chart',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Workout score'
+        }
+    };
+    Plotly.newPlot('progressChart', progressData, progressLayout);
+
+    // exercises weight progress plot
+    let exercisePlotLayout = {
+        title: 'Exercise avg. weight progress chart',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Average weight [kg]'
+        }
+    };
+    function drawExercisePlot(exerciseDto) {
+        let exerciseData = exercisesWeightPlotData[exerciseDto];
+
+        let xValues = [];
+        let yValues = [];
+
+        exerciseData.forEach(function (data) {
+           xValues.push(data.key);
+           yValues.push(data.value);
+        });
+
+        let progressTrace = {
+            x: xValues,
+            y: yValues,
+            mode: 'lines+markers',
+            type: 'scatter',
+            name: 'Line with markers'
+        };
+
+        let exerciseProgressData = [progressTrace];
+
+        Plotly.newPlot('exerciseProgressChart', exerciseProgressData, exercisePlotLayout);
+    }
+
+
+    let exerciseSelect = document.getElementById("exerciseSelect");
+
+    let selectedExercise = exerciseSelect.value;
+    drawExercisePlot(selectedExercise);
+
+    exerciseSelect.addEventListener("change", function(event) {
+       selectedExercise = event.target.value;
+
+        drawExercisePlot(selectedExercise);
+    });
+</script>
+</body>
+</html>
