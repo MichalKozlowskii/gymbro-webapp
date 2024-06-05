@@ -47,8 +47,13 @@ public class WorkoutPlanController {
     public String showAddWorkoutPlanForm(Model model, @AuthenticationPrincipal User user) {
         WorkoutPlanDto workoutPlanDto = new WorkoutPlanDto();
 
-        model.addAttribute("exercisesDto",
-                exerciseService.findAllExercisesOfUser(user));
+        List<ExerciseDto> exercises = exerciseService.findAllExercisesOfUser(user);
+
+        if (exercises.isEmpty()) {
+            return "redirect:/workoutplans?addfail";
+        }
+
+        model.addAttribute("exercisesDto", exercises);
 
         return "addworkoutplan";
     }

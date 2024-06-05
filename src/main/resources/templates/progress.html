@@ -23,7 +23,7 @@
     <div class="subsiteContent">
 
         <div th:if="${#lists.isEmpty(workoutPlan2LastWorkoutsMap.keySet())}">
-            No progress to show!
+            <h1>No progress to show!</h1>
         </div>
 
         <div th:if="${not #lists.isEmpty(workoutPlan2LastWorkoutsMap.keySet())}">
