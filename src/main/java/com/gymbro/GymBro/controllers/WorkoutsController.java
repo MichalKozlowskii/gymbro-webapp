@@ -52,6 +52,10 @@ public class WorkoutsController {
         WorkoutDto workoutDto = new WorkoutDto();
         List<WorkoutPlanDto> workoutPlansDto = workoutPlanService.findAllWorkoutPlansDtoOfUser(user);
 
+        if (workoutPlansDto.isEmpty()) {
+            return "redirect:/workouts?addfail";
+        }
+
         model.addAttribute("workout", workoutDto);
         model.addAttribute("workoutplans", workoutPlansDto);
 
